@@ -377,62 +377,108 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
     pProperties = pProperties->FirstChildElement("property");
 
     std::string npcDscrp = "";
-    std::string npcFile = "";
+    std::string npcTextureFile = "";
     float npcHText = 0;
     float npcWText = 0;
     float npcXText = 0;
     float npcYText = 0;
     std::string npcFacing = "";
 
+    struct animation
+    {
+        std::vector<int> frames;
+        int startX;
+        int startY;
+        const char* animName;
+    } npcAnimation;
+    
     while (pProperties) {
 
         const char* charNameProp = pProperties->Attribute("name");
         std::string propName(charNameProp);
 
-        if (propName == "H_TEXT") {
-            npcHText = pProperties->FloatAttribute("value");
-        }
+        if (propName == "file") {
+            const char* npcFilePath = pProperties->Attribute("value");
 
-        if (propName == "NPC_FILE") {
-            const char* npcFilechar = pProperties->Attribute("value");
-            npcFile = std::string(npcFilechar);
-        }
-
-        if (propName == "W_TEXT") {
-            npcWText = pProperties->FloatAttribute("value");
-        }
-
-        if (propName == "X_TEXT") {
-            npcXText = pProperties->FloatAttribute("value");
-        }
-
-        if (propName == "Y_TEXT") {
-            npcYText = pProperties->FloatAttribute("value");
-        }
-
-        if (propName == "description") {
-            const char* npcDescription = pProperties->Attribute("value"); // odna stroka
-
-            if (npcDescription == NULL) { // neskolko strok
-                npcDescription = pProperties->GetText();
+            XMLDocument npcFile;
+            if (npcFile.LoadFile(npcFilePath)) {
+                SDL_Log("Cant open file %s XML: %s", npcFilePath, npcFile.ErrorStr());
             }
 
-            npcDscrp = std::string(npcDescription);
+            XMLElement* pNpc = npcFile.FirstChildElement("npc");
+            XMLElement* pNpcProperties = pNpc->FirstChildElement("properties");
+            pNpcProperties = pNpcProperties->FirstChildElement("property");
+
+            while(pNpcProperties) {
+
+                const char* charNpcNameProp = pNpcProperties->Attribute("name");
+                std::string propNpcName(charNpcNameProp);
+
+                if (propNpcName == "H_TEXT") {
+                    npcHText = pNpcProperties->FloatAttribute("value");
+                }
+
+                if (propNpcName == "NPC_FILE") {
+                    const char* npcFilechar = pNpcProperties->Attribute("value");
+                    npcTextureFile = std::string(npcFilechar);
+                }
+
+                if (propNpcName == "W_TEXT") {
+                    npcWText = pNpcProperties->FloatAttribute("value");
+                }
+
+                if (propNpcName == "X_TEXT") {
+                    npcXText = pNpcProperties->FloatAttribute("value");
+                }
+
+                if (propNpcName == "Y_TEXT") {
+                    npcYText = pNpcProperties->FloatAttribute("value");
+                }
+
+                if (propNpcName == "description") {
+                    const char* npcDescription = pNpcProperties->Attribute("value"); // odna stroka
+
+                    if (npcDescription == NULL) { // neskolko strok
+                        npcDescription = pNpcProperties->GetText();
+                    }
+
+                    npcDscrp = std::string(npcDescription);
+                }
+
+                if (propNpcName == "facing") {
+
+                    const char *facing = pNpcProperties->Attribute("value");
+                    npcFacing = std::string(facing);
+                }
+                
+                pNpcProperties = pNpcProperties->NextSiblingElement("property");
+            }
+
+            XMLElement* pNpcAnimations = pNpc->FirstChildElement("animations");
+            pNpcAnimations = pNpcAnimations->FirstChildElement("animation");
+
+            while(pNpcAnimations) {
+
+                const char* charAnimName = pNpcAnimations->Attribute("name");
+
+                npcAnimation.animName = charAnimName;
+                npcAnimation.frames.push_back(pNpcAnimations->IntAttribute("frames"));
+                npcAnimation.startX = pNpcAnimations->IntAttribute("startX");
+                npcAnimation.startY = pNpcAnimations->IntAttribute("startY");
+
+                pNpcAnimations = pNpcAnimations->NextSiblingElement("animation");
+            }
         }
-
-        if (propName == "facing") {
-
-            const char *facing = pProperties->Attribute("value");
-            npcFacing = std::string(facing);
-        }
-
         pProperties = pProperties->NextSiblingElement("property");
     }
 
     SpriteDir facingDir = (npcFacing == "LEFT") ? LEFT : RIGHT;
 
-    Npc newNpc(nameNpc, npcDscrp, graphics, npcFile, npcXText, npcYText, npcWText,
+    Npc newNpc(nameNpc, npcDscrp, graphics, npcTextureFile, npcXText, npcYText, npcWText,
         npcHText, npcPoint.x, npcPoint.y, globals::NPC_ANIM_SPEED, facingDir, 1.0f, true);
+
+    newNpc.LoadAnimations(npcAnimation.frames, npcAnimation.startX, 
+        npcAnimation.startY, npcAnimation.animName);
 
     lvlNpc.push_back(newNpc);
 

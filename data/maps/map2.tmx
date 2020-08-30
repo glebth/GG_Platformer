@@ -59,7 +59,8 @@
   </object>
   <object id="20" name="pasha" x="129.666" y="148.041" width="4" height="4.33333">
    <properties>
-    <property name="H_TEXT" type="float" value="24"/>
+    <property name="file" type="file" value="data/maps/npc/pasha.xml"/>
+    <!-- <property name="H_TEXT" type="float" value="24"/>
     <property name="NPC_FILE" value="data/sprites/NpcDark.png"/>
     <property name="W_TEXT" type="float" value="33"/>
     <property name="X_TEXT" type="float" value="4"/>
@@ -71,7 +72,7 @@ wooden toys. And also he is a little bit obsessed with overwhelming hardness of 
 oh yeah
 oh yeah
 yeah right</property>
-    <property name="facing" value="LEFT"/>
+    <property name="facing" value="LEFT"/> -->
    </properties>
    <ellipse/>
   </object>

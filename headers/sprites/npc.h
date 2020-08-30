@@ -24,7 +24,6 @@ public:
 
     const inline std::string GetNpcName() const { return _npcName; }
     const inline std::string GetNpcDescription() const { return _npcDescription; }
-
 private:
     std::string _npcName;
     std::string _npcDescription;

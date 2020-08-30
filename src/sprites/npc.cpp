@@ -17,20 +17,20 @@ Npc::Npc(std::string name, std::string description,
     _npcName(name),
     _npcDescription(description)
 {
-    _currentAnimationName = "";
+    _currentAnimationName = "idleLeft";
 
     _facing = facing;
 
     SetupAnimations();
-    PlayAnimation("idleLeft");
+    //PlayAnimation("idleLeft");
 }
 
 void Npc::SetupAnimations() {
 
-    LoadAnimations(1, 4, 0, "idleLeft");
+    // LoadAnimations(1, 4, 0, "idleLeft");
 
-    std::vector<int> frames = {0, 1, 0, 1};
-    LoadAnimations(frames, 4, 0, "talkLeft", 7);
+    // std::vector<int> frames = {0, 1, 0, 1};
+    // LoadAnimations(frames, 4, 0, "talkLeft", 7);
 }
 
 void Npc::ShowDescriptionMB(Graphics &graphics, Input *input, Menu *menu) {
