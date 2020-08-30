@@ -390,7 +390,9 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
         int startX;
         int startY;
         const char* animName;
+        int margin = 0;
     } npcAnimation;
+    std::vector<animation> npcAnimations;
     
     while (pProperties) {
 
@@ -460,11 +462,33 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
             while(pNpcAnimations) {
 
                 const char* charAnimName = pNpcAnimations->Attribute("name");
+                int frame = pNpcAnimations->IntAttribute("frames");
+                std::vector<int> npcFrames;
 
+                if (frame == 0) {
+                    const char* frames = pNpcAnimations->GetText(); // вида {0, 1, 0, 2}
+
+                    std::string framesString(frames);
+                    std::vector<std::string> framesStringVector;
+                    Utils::Split(framesString, framesStringVector, ',');
+
+                    for (size_t i = 0; i < framesStringVector.size(); i++) {
+                        npcFrames.push_back(stoi(framesStringVector[i]));
+                    }  
+                }
+                else {
+                    for (int i = 0; i < frame; i++) {
+                        npcFrames.push_back(i);
+                    }
+                }
+
+                npcAnimation.frames = npcFrames;
                 npcAnimation.animName = charAnimName;
-                npcAnimation.frames.push_back(pNpcAnimations->IntAttribute("frames"));
                 npcAnimation.startX = pNpcAnimations->IntAttribute("startX");
                 npcAnimation.startY = pNpcAnimations->IntAttribute("startY");
+                npcAnimation.margin = pNpcAnimations->IntAttribute("frameMargin");
+
+                npcAnimations.push_back(npcAnimation);
 
                 pNpcAnimations = pNpcAnimations->NextSiblingElement("animation");
             }
@@ -477,8 +501,10 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
     Npc newNpc(nameNpc, npcDscrp, graphics, npcTextureFile, npcXText, npcYText, npcWText,
         npcHText, npcPoint.x, npcPoint.y, globals::NPC_ANIM_SPEED, facingDir, 1.0f, true);
 
-    newNpc.LoadAnimations(npcAnimation.frames, npcAnimation.startX, 
-        npcAnimation.startY, npcAnimation.animName);
+    for (size_t i = 0; i < npcAnimations.size(); i++) {
+        newNpc.LoadAnimations(npcAnimations[i].frames, npcAnimations[i].startX, 
+            npcAnimations[i].startY, npcAnimations[i].animName, npcAnimations[i].margin);
+    }
 
     lvlNpc.push_back(newNpc);
 
