@@ -25,13 +25,12 @@ Npc::Npc(std::string name, std::string description,
     PlayAnimation("idleLeft");
 }
 
-//NADO BUDET DELAT SPRITEMAPы все одного типа : расположение анимаций на схожих координатах
 void Npc::SetupAnimations() {
 
-    LoadAnimations(1, 3, 2, "idleLeft");
+    LoadAnimations(1, 4, 0, "idleLeft");
 
-    std::vector<int> frames = {0, 1, 0, 2};
-    LoadAnimations(frames, 3, 2, "talkLeft");
+    std::vector<int> frames = {0, 1, 0, 1};
+    LoadAnimations(frames, 4, 0, "talkLeft", 7);
 }
 
 void Npc::ShowDescriptionMB(Graphics &graphics, Input *input, Menu *menu) {
@@ -50,6 +49,7 @@ void Npc::ShowDescriptionMB(Graphics &graphics, Input *input, Menu *menu) {
         isToPlayAnimation = true;
     }
 
+    // MAKE ANIMMATION ONLY FOR SHOWDIALOGBOX
     if (isToPlayAnimation && menu->_isMessageBoxOn) {
         PlayAnimation( ( _facing == LEFT ) ? "talkLeft" : "talkRight");
     }

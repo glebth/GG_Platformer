@@ -39,13 +39,14 @@ void AnimatedSprite::LoadAnimations(int numbOfFrames, int xTextFirst, int yTextF
 
     _animations.insert(std::pair<std::string, std::vector<SDL_Rect>>(name, frms));
 }
-void AnimatedSprite::LoadAnimations(std::vector<int> &framesNum, int xTextFirst, int yTextFirst, const char* animationName) {
+void AnimatedSprite::LoadAnimations(std::vector<int> &framesNum, int xTextFirst, int yTextFirst, 
+    const char* animationName, int frameMargin /*= 0*/) {
 
     std::vector<SDL_Rect> frms;
 
     for (size_t i = 0; i < framesNum.size(); i++) {
         SDL_Rect frm = {
-            xTextFirst + framesNum[i] * _spriteTextureRect.w,
+            xTextFirst + framesNum[i] * (frameMargin + _spriteTextureRect.w),
             yTextFirst,
             _spriteTextureRect.w,
             _spriteTextureRect.h

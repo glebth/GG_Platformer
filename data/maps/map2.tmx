@@ -59,11 +59,11 @@
   </object>
   <object id="20" name="pasha" x="129.666" y="148.041" width="4" height="4.33333">
    <properties>
-    <property name="H_TEXT" type="float" value="22"/>
+    <property name="H_TEXT" type="float" value="24"/>
     <property name="NPC_FILE" value="data/sprites/NpcDark.png"/>
-    <property name="W_TEXT" type="float" value="35"/>
-    <property name="X_TEXT" type="float" value="2"/>
-    <property name="Y_TEXT" type="float" value="3"/>
+    <property name="W_TEXT" type="float" value="33"/>
+    <property name="X_TEXT" type="float" value="4"/>
+    <property name="Y_TEXT" type="float" value="0"/>
     <property name="description">Pasha - 
     my old friend
 He has a long shot for making 

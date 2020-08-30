@@ -32,7 +32,8 @@ protected:
     virtual void StopAnimation();
 
     virtual void LoadAnimations(int numbOfFrames, int xTextFirst, int yTextFirst, const char* animationName);
-    virtual void LoadAnimations(std::vector<int> &framesNum, int xTextFirst, int yTextFirst, const char* animationName);
+    virtual void LoadAnimations(std::vector<int> &framesNum, int xTextFirst, int yTextFirst, 
+        const char* animationName, int frameMargin = 0);
 
     std::string _currentAnimationName;
     virtual void PlayAnimation( const char* animationName, bool isToPlayOnce = false);
