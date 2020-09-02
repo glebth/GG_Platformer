@@ -135,7 +135,7 @@ void Player::HandleNpcCollision(std::vector<Npc *> &npc, Graphics &graphics, Inp
 
         if ( (input->isKeyHeld(SDL_SCANCODE_DOWN) && _isGrounded) || menu->_isMessageBoxOn ) {
 
-            npc[i]->ShowDescriptionMB(graphics, input, menu);
+            npc[i]->ShowMessageBox(graphics, input, menu);
         }
     }
 }

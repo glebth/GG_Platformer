@@ -21,7 +21,7 @@ public:
     
     bool IsColliding(const GG_Rectangle &otherRect);
 
-    void ShowDescriptionMB(Graphics &graphics, Input *input, Menu *menu);
+    void ShowMessageBox(Graphics &graphics, Input *input, Menu *menu);
 
     const inline std::string GetNpcName() const { return _npcName; }
     const inline std::string GetNpcDescription() const { return _npcDescription; }

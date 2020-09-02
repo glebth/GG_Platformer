@@ -4,7 +4,7 @@
 std::string GAME_MENU_FONT = "data/data-unifon.ttf";
 const int GAME_MENU_FONT_SIZE = 50;
 
-std::string MESSAGE_BOX_FONT = "data/a song for jennifer.ttf";
+std::string MESSAGE_BOX_FONT = "data/rusFont.ttf";
 const int MESSAGE_BOX_FONT_SIZE = 25;
 const float MESSAGE_BOX_SCALE = 0.9f;
 const int MESSAGE_BOX_X = (int) (globals::WINDOW_WIDTH / 2.0);
@@ -67,7 +67,7 @@ void Menu::ShowMessage(Graphics &graphics, std::string message,
     SDL_Color color /* = {255,255,255}*/, SDL_Surface *textSurface /* = NULL*/) {
 
     if (textSurface == NULL) //esli ne predzagruzhena iz ShowNExt
-        textSurface = TTF_RenderText_Blended_Wrapped(_textBoxFont, message.c_str(), 
+        textSurface = TTF_RenderUTF8_Blended_Wrapped(_textBoxFont, message.c_str(), 
             color, (Uint32) (globals::WINDOW_WIDTH / 2) );
 
     if( textSurface == NULL ) {
@@ -130,11 +130,10 @@ void Menu::ShowMessage(Graphics &graphics, std::string message,
     SDL_FreeSurface(textSurface);
 }
 
-//ПЕРЕПИСАТ ЧТОБЫ ДВА РАЗА ОДНО И ТЕ ЖЕ ТЕКСТУРЫ НЕ ДЕЛАЛИМСЬ здесь и ShowMessage
 void Menu::ShowNextPartMessage(Graphics &graphics, std::string message, 
     SDL_Color color /*= {255, 255, 255}*/) {
 
-    SDL_Surface *textSurface = TTF_RenderText_Blended_Wrapped(_textBoxFont, message.c_str(), 
+    SDL_Surface *textSurface = TTF_RenderUTF8_Blended_Wrapped(_textBoxFont, message.c_str(), 
         color, (Uint32) (globals::WINDOW_WIDTH / 2) );
 
     if( textSurface == NULL ) {
@@ -169,7 +168,7 @@ void Menu::SetupButtons(Graphics &graphics) {
 void Menu::LoadButton(Graphics &graphics, std::string buttonText, int x, 
                         int y, SDL_Color color /* = {255,255,255}*/) {
 
-    SDL_Surface* textSurface = TTF_RenderText_Solid( _menuFont, buttonText.c_str(), color );
+    SDL_Surface* textSurface = TTF_RenderUTF8_Solid( _menuFont, buttonText.c_str(), color );
 
     if( textSurface == NULL ) {
         SDL_Log( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );

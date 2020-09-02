@@ -34,10 +34,16 @@ void Npc::SetupAnimations() {
     // LoadAnimations(frames, 4, 0, "talkLeft", 7);
 }
 
-void Npc::ShowDescriptionMB(Graphics &graphics, Input *input, Menu *menu) {
+void Npc::ShowMessageBox(Graphics &graphics, Input *input, Menu *menu) {
 
     bool isToPlayAnimation = false;
 
+    if ( input->WasKeyPressed(SDL_SCANCODE_ESCAPE) ) {
+        menu->_isMessageBoxOn = false;
+        menu->_messagePart = 0;
+    }
+
+    //Show Description part.
     if ( menu->_isMessageBoxOn && input->WasKeyPressed(SDL_SCANCODE_X) ) {
         menu->ShowNextPartMessage(graphics, GetNpcDescription());
         isToPlayAnimation = true;
@@ -50,7 +56,7 @@ void Npc::ShowDescriptionMB(Graphics &graphics, Input *input, Menu *menu) {
         isToPlayAnimation = true;
     }
 
-    // MAKE ANIMMATION ONLY FOR SHOWDIALOGBOX
+    // Show Animation part.
     if (isToPlayAnimation && menu->_isMessageBoxOn) {
         PlayAnimation( ( _facing == LEFT ) ? "talkLeft" : "talkRight");
     }

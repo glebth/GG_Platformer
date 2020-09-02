@@ -68,7 +68,7 @@ void Game::MainGameloop() {
             }
         }
 
-        if( _input->WasKeyPressed(SDL_SCANCODE_ESCAPE) ) {
+        if( _input->WasKeyPressed(SDL_SCANCODE_ESCAPE) && !_menu->_isMessageBoxOn ) {
             _menu->_isMenuOn = !_menu->_isMenuOn;
         }
         if (event.type == SDL_QUIT) {
