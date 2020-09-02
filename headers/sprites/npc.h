@@ -16,7 +16,8 @@ public:
                 float xMap, float yMap, 
                 float animUpdate, SpriteDir facing,
                 float boundingBoxScale = 1,
-                bool isCollides  = true);
+                bool isCollides  = true,
+                std::string animName = "idleLeft");
     
     bool IsColliding(const GG_Rectangle &otherRect);
 

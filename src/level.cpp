@@ -499,7 +499,8 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
     SpriteDir facingDir = (npcFacing == "LEFT") ? LEFT : RIGHT;
 
     Npc newNpc(nameNpc, npcDscrp, graphics, npcTextureFile, npcXText, npcYText, npcWText,
-        npcHText, npcPoint.x, npcPoint.y, globals::NPC_ANIM_SPEED, facingDir, 1.0f, true);
+        npcHText, npcPoint.x, npcPoint.y, globals::NPC_ANIM_SPEED, 
+        facingDir, 1.0f, true, npcAnimations[0].animName);
 
     for (size_t i = 0; i < npcAnimations.size(); i++) {
         newNpc.LoadAnimations(npcAnimations[i].frames, npcAnimations[i].startX, 
@@ -507,7 +508,6 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
     }
 
     lvlNpc.push_back(newNpc);
-
 }
 
 void LoadSlopes(XMLElement* pObjectGroup, std::vector<Slope> &slopesVector) {

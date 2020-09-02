@@ -11,13 +11,14 @@ Npc::Npc(std::string name, std::string description,
                 float xMap, float yMap, 
                 float animUpdate, SpriteDir facing,
                 float boundingBoxScale /* = 1*/,
-                bool isCollides /* = true */) :
+                bool isCollides /* = true */,
+                std::string animName /*= "idleLeft"*/) :
     AnimatedSprite(graphics, filePath, xText, yText, wText, hText, 
                     xMap, yMap, animUpdate, boundingBoxScale, isCollides),
     _npcName(name),
     _npcDescription(description)
 {
-    _currentAnimationName = "idleLeft";
+    _currentAnimationName = animName;
 
     _facing = facing;
 
@@ -68,6 +69,9 @@ void Npc::AnimationDone(std::string currentAnimation) {
     if (_facing == LEFT) { 
 
         PlayAnimation("idleLeft");
+    }
+    else {
+        PlayAnimation("idleRight");
     }
     SetVisible(true);
 }
