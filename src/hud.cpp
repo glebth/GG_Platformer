@@ -1,8 +1,9 @@
 #include "hud.h"
 #include "graphics.h"
+#include "sprites/player.h"
 
 Hud::Hud() {;}
-Hud::Hud(Graphics &graphics, Player &player) {
+Hud::Hud(Graphics &graphics, Player *player) {
     _player = player;
 
     _healthBar = Sprite(graphics, "data/sprites/TextBox.png", 0, 40, 64, 8, 35, 70, 1.0f, false);
@@ -14,10 +15,10 @@ Hud::Hud(Graphics &graphics, Player &player) {
 }
 
 void Hud::Update(float elapsedTime) {
-    _healthDigit1.SetTextureRectX( 8 * _player.GetCurrentHealth() ); // *8 чтобы из текстуры прав взять
+    _healthDigit1.SetTextureRectX( 8 * _player->GetCurrentHealth() ); // *8 чтобы из текстуры прав взять
 
     //39px -- 100%
-    float hd = (float)_player.GetCurrentHealth() / (float)_player.GetMaxHealth();
+    float hd = (float)_player->GetCurrentHealth() / (float)_player->GetMaxHealth();
     _currentHealthBar.SetTextureRectW(std::floor(hd * 39)); //39 - dlina Bara polnogo
 }
 

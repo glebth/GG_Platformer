@@ -2,19 +2,19 @@
 #define HUD_H
 
 #include "sprites/sprite.h"
-#include "sprites/player.h"
 
 class Graphics;
+class Player;
 
 class Hud {
 public:
     Hud();
-    Hud(Graphics &graphics, Player &player);
+    Hud(Graphics &graphics, Player *player);
     void Update(float elapsedTime);
     void Draw(Graphics &graphics);
 
 private:
-    Player _player;
+    Player *_player;
 
     Sprite _healthDigit1;
     Sprite _healthBar;

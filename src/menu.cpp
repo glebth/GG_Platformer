@@ -157,9 +157,10 @@ void Menu::ShowNextPartMessage(Graphics &graphics, std::string message,
 
 void Menu::SetupButtons(Graphics &graphics) {
 
-    LoadButton(graphics, "Start", globals::WINDOW_WIDTH / 2, globals::WINDOW_HEIGHT * 1 / 4);
+    LoadButton(graphics, "Continue", globals::WINDOW_WIDTH / 2, globals::WINDOW_HEIGHT * 1 / 4);
     LoadButton(graphics, "Exit", globals::WINDOW_WIDTH / 2, globals::WINDOW_HEIGHT * 2 / 4);
-
+    LoadButton(graphics, "Restart", globals::WINDOW_WIDTH / 2, globals::WINDOW_HEIGHT * 3 / 4);
+    
     _currentButtonNum = menuBtns::MENU_START;
 }
 

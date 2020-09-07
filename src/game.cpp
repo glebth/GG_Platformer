@@ -42,7 +42,7 @@ void Game::MainGameloop() {
         _level.GetPlayerSpawnpoint().y);
     _level.SetPlayer(&_player);
     
-    _hud = Hud(_gameGraphics, _player);
+    _hud = Hud(_gameGraphics, &_player);
     _menu = new Menu(_gameGraphics);
 
     bool isQuit = false;
@@ -130,6 +130,11 @@ void Game::MainGameloop() {
                     if ( _menu->EnterButton() == menuBtns::MENU_START ) {
                         _menu->_isMenuOn = false;
                     }
+                    if ( _menu->EnterButton() == menuBtns::MENU_RESTART ) {
+                        ClearGame(_gameGraphics);
+                        MainGameloop();
+                        return;
+                    }
 
                 }
             }
@@ -214,13 +219,20 @@ void Game::Draw(Graphics &graphics) {
     graphics.Flip();
 }
 
-void Game::QuitGame(Graphics &graphics) {
+void Game::ClearGame(Graphics &graphics) 
+// Called when restarting Game
+{
     delete _input;
     
     _menu->FreeMenu();
     delete _menu;
 
     graphics.FreeGraphics();
+}
+
+void Game::QuitGame(Graphics &graphics) {
+    
+    ClearGame(graphics);
 
     TTF_Quit();
     IMG_Quit();

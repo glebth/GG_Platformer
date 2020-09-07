@@ -22,6 +22,7 @@ private:
     int FpsControl(int lastUpdate);
 
     void QuitGame(Graphics &graphics);
+    void ClearGame(Graphics &graphics);
 
     Input* _input;
 

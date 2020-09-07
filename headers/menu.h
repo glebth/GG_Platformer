@@ -12,6 +12,7 @@ namespace menuBtns {
 
     const int MENU_START = 0;
     const int MENU_EXIT = 1;
+    const int MENU_RESTART = 2;
 
     const std::string MENU_BUTTON_FILE = "data/sprites/TextBox.png";
     const std::string MESSAGE_BOX_FILE = "data/sprites/TextBox.png";
