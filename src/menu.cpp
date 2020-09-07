@@ -38,28 +38,28 @@ void Menu::Draw(Graphics &graphics) {
     SDL_SetTextureAlphaMod( _menuBackground, 255);
 
     //Draw buttons
-    for (size_t i = 0; i < _buttons.size(); i++ ) {
+    for (size_t i = 0; i < _mainMenuButtons.size(); i++ ) {
 
         SDL_Rect srcB = {0, 0, 244, 24}; // Ramka vokrug menu
 
-        SDL_Rect srcT = {0, 0, (int)_buttons[i].buttonRect.GetWidth(), (int)_buttons[i].buttonRect.GetHeight()};
-        SDL_Rect dstT = _buttons[i].buttonRect.GetSDLRect();
+        SDL_Rect srcT = {0, 0, (int)_mainMenuButtons[i].buttonRect.GetWidth(), (int)_mainMenuButtons[i].buttonRect.GetHeight()};
+        SDL_Rect dstT = _mainMenuButtons[i].buttonRect.GetSDLRect();
 
         if ( i != _currentButtonNum ) {
 
-            SDL_SetTextureColorMod(_buttons[i].textTexture, 150, 150, 150);
+            SDL_SetTextureColorMod(_mainMenuButtons[i].textTexture, 150, 150, 150);
 
-            graphics.BlitToWindow(_buttons[i].buttonTexture, &srcB, &dstT);
-            graphics.BlitToWindow(_buttons[i].textTexture, &srcT, &dstT);
+            graphics.BlitToWindow(_mainMenuButtons[i].buttonTexture, &srcB, &dstT);
+            graphics.BlitToWindow(_mainMenuButtons[i].textTexture, &srcT, &dstT);
 
-            SDL_SetTextureColorMod(_buttons[i].textTexture, _buttons[i].buttonColor.r,
-                _buttons[i].buttonColor.g, _buttons[i].buttonColor.b);
+            SDL_SetTextureColorMod(_mainMenuButtons[i].textTexture, _mainMenuButtons[i].buttonColor.r,
+                _mainMenuButtons[i].buttonColor.g, _mainMenuButtons[i].buttonColor.b);
 
             continue;
         }
 
-        graphics.BlitToWindow(_buttons[i].buttonTexture, &srcB, &dstT);
-        graphics.BlitToWindow(_buttons[i].textTexture, &srcT, &dstT);
+        graphics.BlitToWindow(_mainMenuButtons[i].buttonTexture, &srcB, &dstT);
+        graphics.BlitToWindow(_mainMenuButtons[i].textTexture, &srcT, &dstT);
     }
 }
 
@@ -91,8 +91,6 @@ void Menu::ShowMessage(Graphics &graphics, std::string message,
             int fontLineSkip = TTF_FontLineSkip(_textBoxFont);
             int paragraphOnScreen = fontLineSkip * PARAGRAPH_LINES_COUNT;
             int bgBoxHeight = tHeight + fontLineSkip;
-            
-            
 
             if (tHeight > paragraphOnScreen) { //esli text slishkom dlinnii
 
@@ -191,7 +189,7 @@ void Menu::LoadButton(Graphics &graphics, std::string buttonText, int x,
 
             MenuButton newButton = {btnTexture, textTexture, buttonText, btnRect, color};
 
-            _buttons.push_back(newButton);
+            _mainMenuButtons.push_back(newButton);
         }
         
     }
@@ -200,7 +198,7 @@ void Menu::LoadButton(Graphics &graphics, std::string buttonText, int x,
 
 void Menu::MoveDownButton() {
     
-    if (_currentButtonNum != _buttons.size() - 1) {
+    if (_currentButtonNum != _mainMenuButtons.size() - 1) {
         _currentButtonNum++;
     }
     else {
@@ -215,7 +213,7 @@ void Menu::MoveUpButton() {
         _currentButtonNum--;
     }
     else {
-        _currentButtonNum = _buttons.size() - 1;
+        _currentButtonNum = _mainMenuButtons.size() - 1;
     }
 
 }
@@ -228,9 +226,9 @@ const int Menu::EnterButton() {
 
 void Menu::FreeMenu() {
 
-    for (size_t i = 0; i < _buttons.size(); i++) {
+    for (size_t i = 0; i < _mainMenuButtons.size(); i++) {
 
-        SDL_DestroyTexture(_buttons[i].buttonTexture);
+        SDL_DestroyTexture(_mainMenuButtons[i].buttonTexture);
 
     }
 

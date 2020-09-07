@@ -48,7 +48,7 @@ public:
     bool _isMessageBoxOn;
     int _messagePart;
 private:
-    std::vector<MenuButton> _buttons;
+    std::vector<MenuButton> _mainMenuButtons;
     size_t _currentButtonNum;
 
     TTF_Font* _menuFont;
