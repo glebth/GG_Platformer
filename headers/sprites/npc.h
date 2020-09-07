@@ -19,13 +19,13 @@ public:
                 bool isCollides  = true,
                 std::string animName = "idleLeft");
     
-    bool IsColliding(const GG_Rectangle &otherRect);
+    virtual bool IsColliding(const GG_Rectangle &otherRect);
 
     void ShowMessageBox(Graphics &graphics, Input *input, Menu *menu);
 
     const inline std::string GetNpcName() const { return _npcName; }
     const inline std::string GetNpcDescription() const { return _npcDescription; }
-private:
+protected:
     std::string _npcName;
     std::string _npcDescription;
 

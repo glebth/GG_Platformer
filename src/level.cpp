@@ -363,6 +363,9 @@ void LoadSpawnpoints(XMLElement* pObjectGroup, GG_Vector2 &spawnPoint,
         if (nameSp == "pasha") {
             LoadNpc(pElement, x, y, nameSp, lvlNpc, graphics);
         }
+        if (nameSp == "enemy") {
+            LoadNpc(pElement, x, y, nameSp, lvlNpc, graphics);
+        }
 
         pElement = pElement->NextSiblingElement("object");
     }

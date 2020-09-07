@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<npc name="pasha">
+    <properties>
+        <property name="H_TEXT" type="float" value="32"/>
+        <property name="NPC_FILE" value="data/sprites/NpcMiza.png"/>
+        <property name="W_TEXT" type="float" value="32"/>
+        <property name="X_TEXT" type="float" value="0"/>
+        <property name="Y_TEXT" type="float" value="68"/>
+        <property name="description">HAIEARGG
+AArgrhrt!!</property>
+        <property name="facing" value="LEFT"/>
+        <property name="dialog" type="file" value="."/>
+    </properties>
+    <animations>
+        <animation name="idleLeft" frames="1" startX="0" startY="68"/>
+        <!-- <animation name="talkLeft" startX="4" startY="0" frameMargin="7">0,1,0,1</animation> -->
+    </animations>
+</npc>
