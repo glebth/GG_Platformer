@@ -26,7 +26,7 @@ Player::Player(Graphics &graphics, const float xMap, const float yMap) :
     _currentAnimationName = "";
 
     _maxHealth = playerData::MAX_HEALTH;
-    _currentHealth = 2;
+    _currentHealth = _maxHealth;
 
     _isLookingDown = false;
     _isLookingUp = false;
