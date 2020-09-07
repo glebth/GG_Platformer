@@ -6,6 +6,8 @@
 #include "globals.h"
 #include "utils/utils.h"
 #include "sprites/player.h"
+#include "sprites/enemy.h"
+#include "sprites/enemylight.h"
 
 
 Level::Level() {;}
@@ -45,7 +47,7 @@ void Level::LoadLevel(std::string pathMap, Graphics &graphics) {
         this->_levelMapTiles, _levelATInfo, _levelAnimatedTiles);
 
     LoadObjects(mapNode, graphics, _levelColliders, _playerSpawnPoint, 
-    _levelSlopes, _levelDoors, _levelNpc);
+    _levelSlopes, _levelDoors, _levelNpc, _levelEnemy);
 
 }
 
@@ -98,6 +100,10 @@ void Level::Update(float elpasedTime) {
 
     for (size_t i = 0; i < _levelNpc.size(); i++ ) {
         _levelNpc[i].Update(elpasedTime, _offset);
+    }
+    
+    for (size_t i = 0; i < _levelEnemy.size(); i++) {
+        _levelEnemy[i]->Update(elpasedTime, _offset);
     }
 }
 
@@ -293,7 +299,8 @@ void LoadObjects(
     GG_Vector2 &playerSpawnPoint,
     std::vector<Slope> &slopesVector, 
     std::vector<Door> &lvlDoorsVector,
-    std::vector<Npc> &lvlNpc) 
+    std::vector<Npc> &lvlNpc,
+    std::vector<Enemy *> &lvlEnemy) 
 {
 
     XMLElement* pObjectGroup = mapNode->FirstChildElement("objectgroup");
@@ -306,7 +313,7 @@ void LoadObjects(
             LoadColliders(pObjectGroup, collisionRects);
         }
         else if (nameGroup == "spawnpoints") {
-            LoadSpawnpoints(pObjectGroup, playerSpawnPoint, lvlNpc, graphics);
+            LoadSpawnpoints(pObjectGroup, playerSpawnPoint, lvlNpc, lvlEnemy, graphics);
         }
         else if (nameGroup == "slopes") {
             LoadSlopes(pObjectGroup, slopesVector);
@@ -344,7 +351,7 @@ void LoadColliders(XMLElement* pObjectGroup, std::vector<GG_Rectangle> &collisio
 }
 
 void LoadSpawnpoints(XMLElement* pObjectGroup, GG_Vector2 &spawnPoint, 
-    std::vector<Npc> &lvlNpc, Graphics &graphics) {
+    std::vector<Npc> &lvlNpc, std::vector<Enemy *> &lvlEnemy, Graphics &graphics) {
 
     XMLElement* pElement = pObjectGroup->FirstChildElement("object");
 

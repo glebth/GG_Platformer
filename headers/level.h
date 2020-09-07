@@ -17,6 +17,7 @@ using namespace tinyxml2;
 class Graphics;
 class Sprite;
 class Player;
+class Enemy;
 
 class Level {
 public:
@@ -46,6 +47,7 @@ private:
     GG_Vector2 _offset;
 
     std::vector<Npc> _levelNpc;
+    std::vector<Enemy *> _levelEnemy;
 
     void LoadLevel(std::string pathMap, Graphics &graphics);
 
@@ -96,10 +98,11 @@ void LoadObjects(
     GG_Vector2 &playerSpawnPoint,
     std::vector<Slope> &slopesVector, 
     std::vector<Door> &lvlDoorsVector,
-    std::vector<Npc> &lvlNpc);
+    std::vector<Npc> &lvlNpc, 
+    std::vector<Enemy *> &lvlEnemy);
 void LoadColliders(XMLElement* pObjectGroup, std::vector<GG_Rectangle> &collisionRects);
 void LoadSpawnpoints(XMLElement* pObjectGroup, GG_Vector2 &spawnPoint, 
-    std::vector<Npc> &lvlNpc, Graphics &graphics);
+    std::vector<Npc> &lvlNpc, std::vector<Enemy *> &lvlEnemy, Graphics &graphics);
 void LoadSlopes(XMLElement* pObjectGroup, std::vector<Slope> &slopesVector);
 void LoadDoors(XMLElement* pObjectGroup, std::vector<Door> &doorsVector);
 

@@ -3,6 +3,8 @@
 
 #include "sprites/npc.h"
 
+class Player;
+
 class Enemy : public Npc {
 public:
     Enemy(std::string name, std::string description, Graphics &graphics, std::string filePath, 
@@ -22,7 +24,7 @@ public:
                 isCollides,
                 animName) 
                 {};
-    virtual void ImpactOnPlayer() = 0;
+    virtual void ImpactOnPlayer(Player *player) = 0;
 
 protected:
     bool _isAlive;

@@ -21,3 +21,7 @@ EnemyLight::EnemyLight(std::string name, std::string description, Graphics &grap
     _maxHP = 1;
     _currentHP = _maxHP;
 };
+
+void EnemyLight::ImpactOnPlayer(Player *player) {
+    ;
+}

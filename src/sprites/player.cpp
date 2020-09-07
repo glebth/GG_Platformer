@@ -135,7 +135,6 @@ void Player::HandleNpcCollision(std::vector<Npc *> &npc, Graphics &graphics, Inp
 
         if (_currentHealth > 0) 
             --_currentHealth;
-        SDL_Log("curHP == %d", _currentHealth);
 
         if ( (input->isKeyHeld(SDL_SCANCODE_DOWN) && _isGrounded) || menu->_isMessageBoxOn ) {
 

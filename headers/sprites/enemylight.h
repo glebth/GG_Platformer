@@ -16,7 +16,7 @@ public:
                 bool isCollides  = true,
                 std::string animName = "idleLeft");
     
-    void ImpactOnPlayer(Player *player);
+    void ImpactOnPlayer(Player *player) override;
 
 };
 
