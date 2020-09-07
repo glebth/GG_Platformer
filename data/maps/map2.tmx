@@ -64,7 +64,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="28" name="enemy" x="217.5" y="184.5" width="6.5" height="7">
+  <object id="28" name="enemy" x="234.5" y="131" width="6.5" height="7">
    <properties>
     <property name="file" type="file" value="data/maps/npc/enemy.xml"/>
    </properties>

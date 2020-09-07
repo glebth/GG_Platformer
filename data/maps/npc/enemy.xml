@@ -15,4 +15,7 @@ AArgrhrt!!</property>
         <animation name="idleLeft" frames="1" startX="0" startY="68"/>
         <!-- <animation name="talkLeft" startX="4" startY="0" frameMargin="7">0,1,0,1</animation> -->
     </animations>
+    <enemy>
+        <class name="light"/>
+    </enemy>
 </npc>

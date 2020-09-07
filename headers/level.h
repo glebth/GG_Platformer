@@ -107,7 +107,21 @@ void LoadSlopes(XMLElement* pObjectGroup, std::vector<Slope> &slopesVector);
 void LoadDoors(XMLElement* pObjectGroup, std::vector<Door> &doorsVector);
 
 void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc, 
-    std::vector<Npc> &lvlNpc, Graphics &graphics);
+    std::vector<Npc> &lvlNpc, std::vector<Enemy *> &lvlEnemy, Graphics &graphics);
+
+Enemy * CreateEnemy(std::string enemyClass, 
+                std::string name, 
+                std::string description, 
+                Graphics &graphics, 
+                std::string filePath, 
+                float xText, float yText, 
+                float wText, float hText, 
+                float xMap, float yMap, 
+                float animUpdate, SpriteDir facing,
+                float boundingBoxScale = 1,
+                bool isCollides = true,
+                std::string animName = "idleLeft");
+
 
 //Get tile position in tileset
 GG_Rectangle GetTilesetPos(Tileset tls, int dataGID);

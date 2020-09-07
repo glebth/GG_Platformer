@@ -70,6 +70,9 @@ void Level::Draw(Graphics &graphics) {
     for (size_t i = 0; i < _levelNpc.size(); i++ ) {
         _levelNpc[i].Draw(graphics);
     }
+    for (size_t i = 0; i < _levelEnemy.size(); i++ ) {
+        _levelEnemy[i]->Draw(graphics);
+    }
 }
 
 void Level::Update(float elpasedTime) {
@@ -368,10 +371,10 @@ void LoadSpawnpoints(XMLElement* pObjectGroup, GG_Vector2 &spawnPoint,
             spawnPoint = GG_Vector2(ceil(x), ceil(y)) * globals::SPRITE_SCALE;
         }
         if (nameSp == "pasha") {
-            LoadNpc(pElement, x, y, nameSp, lvlNpc, graphics);
+            LoadNpc(pElement, x, y, nameSp, lvlNpc, lvlEnemy, graphics);
         }
         if (nameSp == "enemy") {
-            LoadNpc(pElement, x, y, nameSp, lvlNpc, graphics);
+            LoadNpc(pElement, x, y, nameSp, lvlNpc, lvlEnemy, graphics);
         }
 
         pElement = pElement->NextSiblingElement("object");
@@ -379,7 +382,7 @@ void LoadSpawnpoints(XMLElement* pObjectGroup, GG_Vector2 &spawnPoint,
 }
 
 void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc, 
-    std::vector<Npc> &lvlNpc, Graphics &graphics) {
+    std::vector<Npc> &lvlNpc, std::vector<Enemy *> &lvlEnemy, Graphics &graphics) {
 
     GG_Vector2 npcPoint = GG_Vector2(ceil(x), ceil(y)) * globals::SPRITE_SCALE;
 
@@ -393,6 +396,8 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
     float npcXText = 0;
     float npcYText = 0;
     std::string npcFacing = "";
+
+    const char *enemyClass = NULL;
 
     struct animation
     {
@@ -502,22 +507,77 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
 
                 pNpcAnimations = pNpcAnimations->NextSiblingElement("animation");
             }
+
+            XMLElement *pEnemy = pNpc->FirstChildElement("enemy");
+
+            if (pEnemy) {
+                pEnemy = pEnemy->FirstChildElement("class");
+
+                if (pEnemy)
+                    enemyClass = pEnemy->Attribute("name");
+            }
         }
+
         pProperties = pProperties->NextSiblingElement("property");
     }
 
     SpriteDir facingDir = (npcFacing == "LEFT") ? LEFT : RIGHT;
 
-    Npc newNpc(nameNpc, npcDscrp, graphics, npcTextureFile, npcXText, npcYText, npcWText,
-        npcHText, npcPoint.x, npcPoint.y, globals::NPC_ANIM_SPEED, 
-        facingDir, 1.0f, true, npcAnimations[0].animName);
+    if (nameNpc == "enemy" && enemyClass != NULL) {
+        std::string enemyClassName(enemyClass);
 
-    for (size_t i = 0; i < npcAnimations.size(); i++) {
-        newNpc.LoadAnimations(npcAnimations[i].frames, npcAnimations[i].startX, 
-            npcAnimations[i].startY, npcAnimations[i].animName, npcAnimations[i].margin);
+        Enemy *newEnemy = CreateEnemy(enemyClassName, nameNpc, npcDscrp, graphics, npcTextureFile, npcXText, npcYText, npcWText,
+            npcHText, npcPoint.x, npcPoint.y, globals::NPC_ANIM_SPEED, 
+            facingDir, 1.0f, true, npcAnimations[0].animName);
+
+        for (size_t i = 0; i < npcAnimations.size(); i++) {
+            newEnemy->LoadAnimations(npcAnimations[i].frames, npcAnimations[i].startX, 
+                npcAnimations[i].startY, npcAnimations[i].animName, npcAnimations[i].margin);
+        }
+
+        lvlEnemy.push_back(newEnemy);
     }
+    else {
 
-    lvlNpc.push_back(newNpc);
+        Npc newNpc(nameNpc, npcDscrp, graphics, npcTextureFile, npcXText, npcYText, npcWText,
+            npcHText, npcPoint.x, npcPoint.y, globals::NPC_ANIM_SPEED, 
+            facingDir, 1.0f, true, npcAnimations[0].animName);
+
+        for (size_t i = 0; i < npcAnimations.size(); i++) {
+            newNpc.LoadAnimations(npcAnimations[i].frames, npcAnimations[i].startX, 
+                npcAnimations[i].startY, npcAnimations[i].animName, npcAnimations[i].margin);
+        }
+
+        lvlNpc.push_back(newNpc);
+    }
+}
+
+Enemy * CreateEnemy(std::string enemyClass, 
+                std::string name, 
+                std::string description, 
+                Graphics &graphics, 
+                std::string filePath, 
+                float xText, float yText, 
+                float wText, float hText, 
+                float xMap, float yMap, 
+                float animUpdate, SpriteDir facing,
+                float boundingBoxScale /*= 1*/,
+                bool isCollides /*= true*/,
+                std::string animName /*= "idleLeft"*/) {
+    
+    if (enemyClass == "light") {
+        return new EnemyLight(name, 
+            description,
+            graphics, filePath, 
+            xText, yText, 
+            wText, hText, 
+            xMap, yMap, 
+            animUpdate, facing,
+            boundingBoxScale,
+            isCollides,
+            animName);
+    }
+    return NULL;
 }
 
 void LoadSlopes(XMLElement* pObjectGroup, std::vector<Slope> &slopesVector) {

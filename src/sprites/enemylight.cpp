@@ -1,4 +1,5 @@
 #include "sprites/enemylight.h"
+#include "sprites/player.h"
 
 EnemyLight::EnemyLight(std::string name, std::string description, Graphics &graphics, std::string filePath, 
                 float xText, float yText, 
@@ -23,5 +24,5 @@ EnemyLight::EnemyLight(std::string name, std::string description, Graphics &grap
 };
 
 void EnemyLight::ImpactOnPlayer(Player *player) {
-    ;
+    player->GetCurrentHealth();
 }
