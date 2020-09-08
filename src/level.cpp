@@ -59,6 +59,7 @@ void Level::Draw(Graphics &graphics) {
         _levelAnimatedTiles[i].Draw(graphics);
     }
 
+    // Npc collisions.
     for (size_t i = 0; i < _levelNpc.size(); i++ ) {
 
         std::vector<GG_Rectangle> collisionRectangles;
@@ -70,6 +71,13 @@ void Level::Draw(Graphics &graphics) {
     for (size_t i = 0; i < _levelNpc.size(); i++ ) {
         _levelNpc[i].Draw(graphics);
     }
+
+    // Enemy collisions.
+    for (size_t i = 0; i < _levelEnemy.size(); i++) {
+        std::vector<GG_Rectangle> collisionedRectangles;
+        if ( (collisionedRectangles = CollidedRects(_levelEnemy[i]->GetBoundingbox())).size() > 0 )
+            _levelEnemy[i]->HandleCollision(collisionedRectangles);
+    } 
     for (size_t i = 0; i < _levelEnemy.size(); i++ ) {
         _levelEnemy[i]->Draw(graphics);
     }
@@ -82,7 +90,6 @@ void Level::Update(float elpasedTime) {
                                                 (float)globals::WINDOW_WIDTH / 2.0f ) 
     {
         _offset.x = _player->GetBoundingbox().GetLeft() - (float)globals::WINDOW_WIDTH / 2.0f;
-        //SDL_Log("offsetx %f", _offset.x);
     }
 
     //Вертикальные оффсеты
