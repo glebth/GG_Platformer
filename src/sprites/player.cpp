@@ -2,6 +2,7 @@
 #include "level.h"
 #include "input.h"
 #include "menu.h"
+#include "sprites/enemy.h"
 
 
 namespace playerData {
@@ -30,6 +31,8 @@ Player::Player(Graphics &graphics, const float xMap, const float yMap) :
 
     _isLookingDown = false;
     _isLookingUp = false;
+
+    _isDamaged = false;
 
     SetupAnimations();
     PlayAnimation("idleRight");
@@ -117,7 +120,7 @@ void Player::StopLookingUp() {
 
 void Player::HandleDoorCollision( std::vector<Door> &doors, Graphics &graphics, Level &level) {
     
-    //If isGrounded and arrowDown -> go through the door
+    // If isGrounded and arrowDown -> go through the door.
     for (size_t i = 0; i < doors.size(); i++) {
 
         if( _isGrounded && _isLookingDown ) {
@@ -138,4 +141,28 @@ void Player::HandleNpcCollision(std::vector<Npc *> &npc, Graphics &graphics, Inp
             npc[i]->ShowMessageBox(graphics, input, menu);
         }
     }
+}
+
+void Player::HandleEnemyCollision(std::vector<Enemy *> &enemys) {
+
+    for (size_t i = 0; i < enemys.size(); i++) {
+
+        enemys[i]->ImpactOnPlayer(this);
+        
+
+        if (_dy > 0 && GetBoundingbox().GetBottom() > enemys[i]->GetBoundingbox().GetTop() ) {
+            _dy = globals::JUMP_SPEED;
+        }
+        else {
+            if (!_isDamaged) {
+                ChangePlayerHP(enemys[i]->_damageHP);
+                _isDamaged = true;
+            }
+        }
+    }
+}
+
+void Player::ChangePlayerHP(int hpAmount) {
+    if (_currentHealth > 0)
+        _currentHealth += hpAmount;
 }

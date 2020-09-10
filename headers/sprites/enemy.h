@@ -26,6 +26,8 @@ public:
                 {};
     virtual void ImpactOnPlayer(Player *player) = 0;
 
+    int _damageHP;
+
 protected:
     bool _isAlive;
     unsigned int _currentHP;

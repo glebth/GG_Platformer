@@ -31,6 +31,7 @@ public:
     std::vector<Slope> CollidedSlopes(const GG_Rectangle &otherRectangle);
     std::vector<Door> CollidedDoors(const GG_Rectangle &otherRectangle);
     std::vector<Npc *> CollidedNpc(const GG_Rectangle &otherRectangle);
+    std::vector<Enemy *> CollidedEnemies(const GG_Rectangle &otherRectangle);
 
     const inline GG_Vector2 GetPlayerSpawnpoint() const { return _playerSpawnPoint; }
     inline GG_Vector2 GetOffset() { return _offset; }

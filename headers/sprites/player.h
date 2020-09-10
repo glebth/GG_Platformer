@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "sprites/animatedsprite.h"
+#include "sprites/enemy.h"
 #include "utils/door.h"
 #include "npc.h"
 
@@ -28,10 +29,12 @@ public:
 
     void HandleDoorCollision(std::vector<Door> &doors, Graphics &graphics, Level &level);
     void HandleNpcCollision(std::vector<Npc *> &npc, Graphics &graphics, Input *input, Menu *menu);
+    void HandleEnemyCollision(std::vector<Enemy *> &enemys);
 
     const inline int GetCurrentHealth() const { return _currentHealth; }
     const inline int GetMaxHealth() const { return _maxHealth; }
 
+    void ChangePlayerHP(int hpAmount);
 private:
     void AnimationDone(std::string currentAnimation);
     void SetupAnimations();
@@ -39,9 +42,10 @@ private:
     bool _isLookingUp;
     bool _isLookingDown;
 
+    bool _isDamaged;
+
     int _currentHealth;
     int _maxHealth;
-
 };
 
 #endif

@@ -21,8 +21,10 @@ EnemyLight::EnemyLight(std::string name, std::string description, Graphics &grap
     _isAlive = true;
     _maxHP = 1;
     _currentHP = _maxHP;
+
+    _damageHP = -1;
 };
 
 void EnemyLight::ImpactOnPlayer(Player *player) {
-    player->GetCurrentHealth();
+    ;
 }

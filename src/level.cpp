@@ -59,7 +59,7 @@ void Level::Draw(Graphics &graphics) {
         _levelAnimatedTiles[i].Draw(graphics);
     }
 
-    // Npc collisions.
+    // Npc collisions with level.
     for (size_t i = 0; i < _levelNpc.size(); i++ ) {
 
         std::vector<GG_Rectangle> collisionRectangles;
@@ -72,7 +72,7 @@ void Level::Draw(Graphics &graphics) {
         _levelNpc[i].Draw(graphics);
     }
 
-    // Enemy collisions.
+    // Enemy collisions with level.
     for (size_t i = 0; i < _levelEnemy.size(); i++) {
         std::vector<GG_Rectangle> collisionedRectangles;
         if ( (collisionedRectangles = CollidedRects(_levelEnemy[i]->GetBoundingbox())).size() > 0 )
@@ -170,6 +170,20 @@ std::vector<Npc *> Level::CollidedNpc(const GG_Rectangle &otherRectangle) {
 
     return collidedNpc;
 
+}
+
+std::vector<Enemy *> Level::CollidedEnemies(const GG_Rectangle &otherRectangle) {
+
+    std::vector<Enemy *> collidedEnemies;
+
+    for (size_t i = 0; i < _levelEnemy.size(); ++i) {
+
+        if ( _levelEnemy[i]->IsColliding(otherRectangle) ) {
+            collidedEnemies.push_back(_levelEnemy[i]);
+        }
+    }
+
+    return collidedEnemies;
 }
 
 //--------Help functions --------

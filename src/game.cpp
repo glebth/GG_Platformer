@@ -214,6 +214,11 @@ void Game::Draw(Graphics &graphics) {
         if ( (collidedNpc = _level.CollidedNpc(_player.GetBoundingbox())).size() > 0 ) {
             _player.HandleNpcCollision(collidedNpc, graphics, _input, _menu);
         }
+
+        std::vector<Enemy *> collidedEnemies;
+        if ( (collidedEnemies = _level.CollidedEnemies(_player.GetBoundingbox())).size() > 0 ) {
+            _player.HandleEnemyCollision(collidedEnemies);
+        }
     }
 
     graphics.Flip();
