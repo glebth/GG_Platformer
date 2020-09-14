@@ -18,6 +18,8 @@ public:
     
     void ImpactOnPlayer(Player *player) override;
 
+    void Update(float time, Player* player , GG_Vector2 offset = {0, 0});
+
 };
 
 #endif

@@ -25,6 +25,15 @@ EnemyLight::EnemyLight(std::string name, std::string description, Graphics &grap
     _damageHP = -1;
 };
 
+void EnemyLight::Update(float time, Player* player , GG_Vector2 offset /*= {0, 0}*/ ) {
+
+    _facing = player->GetX() > _spriteBoundingbox.GetCenterX() ? RIGHT : LEFT;
+    PlayAnimation(_facing == LEFT ? "idleLeft" : "idleRight");
+
+    AnimatedSprite::Update(time, offset);
+
+}
+
 void EnemyLight::ImpactOnPlayer(Player *player) {
     ;
 }

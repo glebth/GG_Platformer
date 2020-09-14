@@ -34,6 +34,12 @@ public:
     const inline int GetCurrentHealth() const { return _currentHealth; }
     const inline int GetMaxHealth() const { return _maxHealth; }
 
+    const inline float GetX() const { return _spriteBoundingbox.GetCenterX(); }
+    const inline float GetY() const { return _spriteBoundingbox.GetCenterY(); }
+
+    const inline bool IsDamaged() const { return _isDamaged; }
+    const inline void DamagedStateReverse() { _isDamaged = !_isDamaged; }
+
     void ChangePlayerHP(int hpAmount);
 private:
     void AnimationDone(std::string currentAnimation);

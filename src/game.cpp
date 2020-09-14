@@ -49,6 +49,8 @@ void Game::MainGameloop() {
 
     // Ticks per frame controller
     int LAST_UPDATE_TIME = SDL_GetTicks();
+
+    int LAST_DAMAGE_TIME = 0;
     
     while (!isQuit)
     {
@@ -79,36 +81,45 @@ void Game::MainGameloop() {
 
         if ( !_menu->_isMenuOn && !_menu->_isMessageBoxOn )
         {
+            if ( !_player.IsDamaged() ) {
+                if (_input->isKeyHeld(SDL_SCANCODE_LEFT)) {
+                    _player.MoveLeft();
+                }
+                else if (_input->isKeyHeld(SDL_SCANCODE_RIGHT)) {
+                    _player.MoveRight();
+                }
+                else if ((!_input->isKeyHeld(SDL_SCANCODE_RIGHT) && (!_input->isKeyHeld(SDL_SCANCODE_LEFT))))
+                {
+                    _player.MoveStop();
+                    if (_input->isKeyHeld(SDL_SCANCODE_DOWN)) {
+                        _player.LookDown();
+                    }
+                }
+                
+                if (_input->WasKeyPressed(SDL_SCANCODE_SPACE)) {
+                    _player.MoveJump();
+                }
 
-            if (_input->isKeyHeld(SDL_SCANCODE_LEFT)) {
-                _player.MoveLeft();
-            }
-            else if (_input->isKeyHeld(SDL_SCANCODE_RIGHT)) {
-                _player.MoveRight();
-            }
-            else if ((!_input->isKeyHeld(SDL_SCANCODE_RIGHT) && (!_input->isKeyHeld(SDL_SCANCODE_LEFT))))
-            {
-                _player.MoveStop();
-                if (_input->isKeyHeld(SDL_SCANCODE_DOWN)) {
-                    _player.LookDown();
+                if (_input->isKeyHeld(SDL_SCANCODE_UP)) {
+                    _player.LookUp();
+                }
+                if ( _input->WasKeyReleased(SDL_SCANCODE_UP) || !_input->isKeyHeld(SDL_SCANCODE_UP) ) {
+                    _player.StopLookingUp();
+                }
+                
+                if ( _input->WasKeyReleased(SDL_SCANCODE_DOWN) || !_input->isKeyHeld(SDL_SCANCODE_DOWN) ) {
+                    _player.StopLookingDown();
                 }
             }
-            
-            if (_input->WasKeyPressed(SDL_SCANCODE_SPACE)) {
-                _player.MoveJump();
-            }
+            else if (_player.IsDamaged()) {
+                if (LAST_DAMAGE_TIME == 0)
+                    LAST_DAMAGE_TIME = SDL_GetTicks();
 
-            if (_input->isKeyHeld(SDL_SCANCODE_UP)) {
-                _player.LookUp();
+                if (globals::PLAYER_STUN_TIME < SDL_GetTicks() - LAST_DAMAGE_TIME) {
+                    _player.DamagedStateReverse();
+                    LAST_DAMAGE_TIME = 0;
+                }
             }
-            if ( _input->WasKeyReleased(SDL_SCANCODE_UP) || !_input->isKeyHeld(SDL_SCANCODE_UP) ) {
-                _player.StopLookingUp();
-            }
-            
-            if ( _input->WasKeyReleased(SDL_SCANCODE_DOWN) || !_input->isKeyHeld(SDL_SCANCODE_DOWN) ) {
-                _player.StopLookingDown();
-            }
-        
         }
         else {
 

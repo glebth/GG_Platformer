@@ -113,7 +113,7 @@ void Level::Update(float elpasedTime) {
     }
     
     for (size_t i = 0; i < _levelEnemy.size(); i++) {
-        _levelEnemy[i]->Update(elpasedTime, _offset);
+        _levelEnemy[i]->Update(elpasedTime, _player, _offset);
     }
 }
 

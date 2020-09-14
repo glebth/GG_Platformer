@@ -25,6 +25,7 @@ public:
                 animName) 
                 {};
     virtual void ImpactOnPlayer(Player *player) = 0;
+    virtual void Update(float time, Player* player , GG_Vector2 offset = {0, 0}) = 0;
 
     int _damageHP;
 

@@ -156,6 +156,10 @@ void Player::HandleEnemyCollision(std::vector<Enemy *> &enemys) {
         else {
             if (!_isDamaged) {
                 ChangePlayerHP(enemys[i]->_damageHP);
+
+                MoveJump();
+                _dx = ((_dx > 0) ? 1 : -1) * globals::JUMP_SPEED;
+                
                 _isDamaged = true;
             }
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<npc name="pasha">
+<npc name="miza">
     <properties>
         <property name="H_TEXT" type="float" value="28"/>
         <property name="NPC_FILE" value="data/sprites/NpcMiza.png"/>
@@ -13,7 +13,7 @@ AArgrhrt!!</property>
     </properties>
     <animations>
         <animation name="idleLeft" startX="5" startY="68" frameMargin="8">0,1,0,1</animation>
-        <!-- <animation name="talkLeft" startX="4" startY="0" frameMargin="7">0,1,0,1</animation> -->
+        <animation name="idleRight" startX="5" startY="100" frameMargin="8">0,1,0,1</animation>
     </animations>
     <enemy>
         <class name="light"/>

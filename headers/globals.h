@@ -14,6 +14,7 @@ namespace globals {
     const float BOUNDING_BOX_SCALE = 0.75;
 
     const float PLAYER_WALK_SPEED = 0.35f;
+    const int PLAYER_STUN_TIME = 150;
     const float GRAVITY_AX = 0.002f;
     const float MAX_GRAVITY_SPEED = 0.7f;
     const float JUMP_SPEED = -0.55f;
