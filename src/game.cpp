@@ -112,6 +112,7 @@ void Game::MainGameloop() {
                 }
             }
             else if (_player.IsDamaged()) {
+                
                 if (LAST_DAMAGE_TIME == 0)
                     LAST_DAMAGE_TIME = SDL_GetTicks();
 

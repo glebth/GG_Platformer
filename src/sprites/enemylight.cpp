@@ -22,16 +22,57 @@ EnemyLight::EnemyLight(std::string name, std::string description, Graphics &grap
     _maxHP = 1;
     _currentHP = _maxHP;
 
+    _dx = -globals::ENEMY_LIGHT_WALK_SPEED;
+
     _damageHP = -1;
 };
 
 void EnemyLight::Update(float time, Player* player , GG_Vector2 offset /*= {0, 0}*/ ) {
 
-    _facing = player->GetX() > _spriteBoundingbox.GetCenterX() ? RIGHT : LEFT;
-    PlayAnimation(_facing == LEFT ? "idleLeft" : "idleRight");
+    //_facing = player->GetX() > _spriteBoundingbox.GetCenterX() ? RIGHT : LEFT;
+    PlayAnimation(_facing == LEFT ? "runLeft" : "runRight");
 
     AnimatedSprite::Update(time, offset);
 
+}
+
+void EnemyLight::HandleCollision(std::vector<GG_Rectangle> &othersRectangles) {
+    
+    if (_isColliding) {
+        //Find ride side that collided;
+        for (size_t i = 0; i < othersRectangles.size(); i++) {
+            sides::RectSide collisionSide = Sprite::GetCollisionSide(othersRectangles[i]);            
+            
+            switch (collisionSide) {
+                case sides::RectSide::BOTTOM:
+                    this->_spriteMapPosition.y = othersRectangles[i].GetTop() - this->GetBoundingbox().GetHeight();
+                    this->_dy = 0;
+                    this->_isGrounded = true;
+                    break;
+                case sides::RectSide::TOP:
+                    this->_spriteMapPosition.y = othersRectangles[i].GetBottom();
+                    this->_dy = 0;
+                    if (_isGrounded) { //esli na slope
+                        _dx = 0;
+                    }
+                    break;
+                case sides::RectSide::LEFT:
+                    this->_spriteMapPosition.x = othersRectangles[i].GetRight();// + 1;
+                    break;
+                case sides::RectSide::RIGHT:
+                    this->_spriteMapPosition.x = othersRectangles[i].GetLeft() - this->GetBoundingbox().GetWidth();// - 1;
+                    break;                          
+                default:
+                    break;
+            }    
+
+            if (collisionSide == sides::RectSide::LEFT || collisionSide == sides::RectSide::RIGHT) {
+                _facing = (collisionSide == sides::RectSide::LEFT) ? RIGHT : LEFT;
+                _dx = -_dx;
+            }
+
+        }
+    }
 }
 
 void EnemyLight::ImpactOnPlayer(Player *player) {

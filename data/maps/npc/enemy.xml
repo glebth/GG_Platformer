@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <npc name="miza">
     <properties>
-        <property name="H_TEXT" type="float" value="28"/>
+        <property name="H_TEXT" type="float" value="29"/>
         <property name="NPC_FILE" value="data/sprites/NpcMiza.png"/>
         <property name="W_TEXT" type="float" value="24"/>
         <property name="X_TEXT" type="float" value="5"/>
@@ -12,8 +12,8 @@ AArgrhrt!!</property>
         <property name="dialog" type="file" value="."/>
     </properties>
     <animations>
-        <animation name="idleLeft" startX="5" startY="68" frameMargin="8">0,1,0,1</animation>
-        <animation name="idleRight" startX="5" startY="100" frameMargin="8">0,1,0,1</animation>
+        <animation name="runLeft" startX="37" startY="67" frameMargin="8">0,1,0,2</animation>
+        <animation name="runRight" startX="37" startY="99" frameMargin="8">0,1,0,2</animation>
     </animations>
     <enemy>
         <class name="light"/>

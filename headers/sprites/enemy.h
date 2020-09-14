@@ -27,12 +27,16 @@ public:
     virtual void ImpactOnPlayer(Player *player) = 0;
     virtual void Update(float time, Player* player , GG_Vector2 offset = {0, 0}) = 0;
 
+    void HandleCollision(std::vector<GG_Rectangle> &othersRectangles) = 0;
+
     int _damageHP;
 
 protected:
     bool _isAlive;
     unsigned int _currentHP;
     unsigned int _maxHP;
+
+    void AnimationDone(std::string currentAnimation) {;};
 };
 
 #endif

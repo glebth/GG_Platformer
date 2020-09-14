@@ -568,9 +568,11 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
             newNpc.LoadAnimations(npcAnimations[i].frames, npcAnimations[i].startX, 
                 npcAnimations[i].startY, npcAnimations[i].animName, npcAnimations[i].margin);
         }
-
+        
         lvlNpc.push_back(newNpc);
     }
+
+    npcAnimations.clear();
 }
 
 Enemy * CreateEnemy(std::string enemyClass, 

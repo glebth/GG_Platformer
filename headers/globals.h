@@ -13,6 +13,8 @@ namespace globals {
     const int SPRITE_SCALE = 2;
     const float BOUNDING_BOX_SCALE = 0.75;
 
+    const float ENEMY_LIGHT_WALK_SPEED = 0.2f;
+
     const float PLAYER_WALK_SPEED = 0.35f;
     const int PLAYER_STUN_TIME = 150;
     const float GRAVITY_AX = 0.002f;
