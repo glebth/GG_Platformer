@@ -77,6 +77,10 @@ void Level::Draw(Graphics &graphics) {
         std::vector<GG_Rectangle> collisionedRectangles;
         if ( (collisionedRectangles = CollidedRects(_levelEnemy[i]->GetBoundingbox())).size() > 0 )
             _levelEnemy[i]->HandleCollision(collisionedRectangles);
+        
+        if (!_levelEnemy[i]->GetAliveStatus()) {
+            _levelEnemy.erase(_levelEnemy.begin() + i);
+        }
     } 
     for (size_t i = 0; i < _levelEnemy.size(); i++ ) {
         _levelEnemy[i]->Draw(graphics);

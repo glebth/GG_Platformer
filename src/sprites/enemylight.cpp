@@ -26,13 +26,26 @@ EnemyLight::EnemyLight(std::string name, std::string description, Graphics &grap
 
     _previousCollisionSide = sides::RectSide::NONE;
 
+    _lastDamageTime = SDL_GetTicks();
+
     _damageHP = -1;
 };
 
 void EnemyLight::Update(float time, Player* player , GG_Vector2 offset /*= {0, 0}*/ ) {
 
     //_facing = player->GetX() > _spriteBoundingbox.GetCenterX() ? RIGHT : LEFT;
-    PlayAnimation(_facing == LEFT ? "runLeft" : "runRight");
+    if (_currentHP <= 0) {
+
+        PlayAnimation("killLeft");
+        _isColliding = false;
+
+        if (_isGrounded) {
+            _isGrounded = false;
+            _dy = globals::JUMP_SPEED;
+        }
+        if (SDL_GetTicks() - _lastDamageTime > globals::ENEMY_LIGHT_DEATH_TIME)
+            _isAlive = false;
+    }
 
     AnimatedSprite::Update(time, offset);
 
@@ -82,10 +95,24 @@ void EnemyLight::HandleCollision(std::vector<GG_Rectangle> &othersRectangles) {
             }
             _previousCollisionSide = collisionSide;
 
+            PlayAnimation(_facing == LEFT && _currentHP > 0 ? "runLeft" : "runRight");
+
         }
     }
 }
 
 void EnemyLight::ImpactOnPlayer(Player *player) {
+    ;
+}
+
+void EnemyLight::ChangeHP(int hpAmount) {
+
+    if (_currentHP > 0) {
+        _currentHP += hpAmount;
+        _lastDamageTime = SDL_GetTicks();
+    }
+}
+
+void EnemyLight::AnimationDone(std::string currentAnimation) {
     ;
 }

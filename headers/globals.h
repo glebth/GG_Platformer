@@ -14,6 +14,7 @@ namespace globals {
     const float BOUNDING_BOX_SCALE = 0.75;
 
     const float ENEMY_LIGHT_WALK_SPEED = 0.2f;
+    const int ENEMY_LIGHT_DEATH_TIME = 800;
 
     const float PLAYER_WALK_SPEED = 0.35f;
     const int PLAYER_STUN_TIME = 150;

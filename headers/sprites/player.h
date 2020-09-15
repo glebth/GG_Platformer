@@ -52,6 +52,8 @@ private:
 
     int _currentHealth;
     int _maxHealth;
+
+    int _damageHP;
 };
 
 #endif

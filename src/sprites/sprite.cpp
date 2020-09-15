@@ -145,7 +145,7 @@ void Sprite::Update(float time, GG_Vector2 offset /* = {0, 0} */ ) {
 
     SetOffset(offset);
     
-    if (_isColliding) {
+    // if (_isColliding) {
         _spriteMapPosition.x += _dx * time;
 
         if (!_isGrounded || _dy < globals::MAX_GRAVITY_SPEED) {
@@ -157,7 +157,7 @@ void Sprite::Update(float time, GG_Vector2 offset /* = {0, 0} */ ) {
         _spriteBoundingbox._x = _spriteMapPosition.x;
         _spriteBoundingbox._y = _spriteMapPosition.y;
         //SDL_Log("BBy: %f", _spriteBoundingbox.GetCenterY());
-    }
+    // }
 }
 
 void Sprite::SetOffset(GG_Vector2 offset) {

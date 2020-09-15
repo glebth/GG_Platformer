@@ -15,7 +15,9 @@ namespace playerData {
 
     float ANIM_SPEED = 200.0f;
 
-    int MAX_HEALTH = 3; 
+    int MAX_HEALTH = 3;
+
+    int DAMAGE_HP = -1;
 
 };
 
@@ -33,6 +35,8 @@ Player::Player(Graphics &graphics, const float xMap, const float yMap) :
     _isLookingUp = false;
 
     _isDamaged = false;
+
+    _damageHP = playerData::DAMAGE_HP;
 
     SetupAnimations();
     PlayAnimation("idleRight");
@@ -152,10 +156,11 @@ void Player::HandleEnemyCollision(std::vector<Enemy *> &enemys) {
 
         if (_dy > 0 && GetBoundingbox().GetBottom() > enemys[i]->GetBoundingbox().GetTop() ) {
             _dy = globals::JUMP_SPEED;
+            enemys[i]->ChangeHP(_damageHP);
         }
         else {
-            if (!_isDamaged) {
-                ChangePlayerHP(enemys[i]->_damageHP);
+            if (!_isDamaged && enemys[i]->GetCollisonStatus()) {
+                ChangePlayerHP(enemys[i]->GetDamage());
 
                 MoveJump();
                 _dx = ((enemys[i]->GetFacing() == LEFT) ? 1 : -1) * globals::JUMP_SPEED;
@@ -166,7 +171,7 @@ void Player::HandleEnemyCollision(std::vector<Enemy *> &enemys) {
     }
 }
 
-void Player::ChangePlayerHP(int hpAmount) {
+void Player::ChangePlayerHP(const int hpAmount) {
     if (_currentHealth > 0)
         _currentHealth += hpAmount;
 }

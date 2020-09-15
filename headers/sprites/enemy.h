@@ -29,12 +29,19 @@ public:
 
     void HandleCollision(std::vector<GG_Rectangle> &othersRectangles) = 0;
 
-    int _damageHP;
+    virtual void ChangeHP(int hpAmount) = 0;
+
+    const int GetDamage() const { return _damageHP; }
+    const bool GetAliveStatus() const { return _isAlive; }
+    const bool GetCollisonStatus() const { return _isColliding; }
 
 protected:
     bool _isAlive;
     unsigned int _currentHP;
     unsigned int _maxHP;
+    int _damageHP;
+
+    int _lastDamageTime;
 
     void AnimationDone(std::string currentAnimation) {;};
 };

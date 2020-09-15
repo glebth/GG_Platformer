@@ -21,8 +21,12 @@ public:
     void Update(float time, Player* player , GG_Vector2 offset = {0, 0});
 
     void HandleCollision(std::vector<GG_Rectangle> &othersRectangles);
+
+    void ChangeHP(int hpAmount);
 private:
     sides::RectSide _previousCollisionSide;
+
+    void AnimationDone(std::string currentAnimation);
 };
 
 #endif
