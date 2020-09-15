@@ -24,6 +24,8 @@ EnemyLight::EnemyLight(std::string name, std::string description, Graphics &grap
 
     _dx = -globals::ENEMY_LIGHT_WALK_SPEED;
 
+    _previousCollisionSide = sides::RectSide::NONE;
+
     _damageHP = -1;
 };
 
@@ -70,6 +72,15 @@ void EnemyLight::HandleCollision(std::vector<GG_Rectangle> &othersRectangles) {
                 _facing = (collisionSide == sides::RectSide::LEFT) ? RIGHT : LEFT;
                 _dx = -_dx;
             }
+            if ( collisionSide == sides::RectSide::BOTTOM && _previousCollisionSide == sides::RectSide::BOTTOM &&
+                (othersRectangles[i].GetLeft() == _spriteMapPosition.x || 
+                (othersRectangles[i].GetRight() == _spriteMapPosition.x + _spriteTextureRect.w)) 
+                ) 
+            {
+                _facing = (_dx > 0) ? LEFT : RIGHT;
+                _dx = -_dx;
+            }
+            _previousCollisionSide = collisionSide;
 
         }
     }
