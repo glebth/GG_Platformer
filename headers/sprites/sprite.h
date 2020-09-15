@@ -80,6 +80,8 @@ protected:
 
     bool _isColliding;
 
+    bool _isAlive;
+
     
 };
 

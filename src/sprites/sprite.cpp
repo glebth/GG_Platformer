@@ -26,6 +26,7 @@ Sprite::Sprite(Graphics &graphics, std::string filePath,
     _isGrounded = false;
     _isVisible = true;
     _isColliding = isColliding;
+    _isAlive = true;
 
     _spriteBoundingbox = GG_Rectangle(_spriteMapPosition.x, 
                         _spriteMapPosition.y, 
