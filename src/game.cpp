@@ -81,7 +81,7 @@ void Game::MainGameloop() {
 
         if ( !_menu->_isMenuOn && !_menu->_isMessageBoxOn )
         {
-            if ( !_player.IsDamaged() ) {
+            if ( !_player.IsDamaged() && _player.IsAlive() ) {
                 if (_input->isKeyHeld(SDL_SCANCODE_LEFT)) {
                     _player.MoveLeft();
                 }
@@ -228,7 +228,7 @@ void Game::Draw(Graphics &graphics) {
         }
 
         std::vector<Enemy *> collidedEnemies;
-        if ( (collidedEnemies = _level.CollidedEnemies(_player.GetBoundingbox())).size() > 0 ) {
+        if ( _player.IsAlive() && !_menu->_isMessageBoxOn && (collidedEnemies = _level.CollidedEnemies(_player.GetBoundingbox())).size() > 0 ) {
             _player.HandleEnemyCollision(collidedEnemies);
         }
     }

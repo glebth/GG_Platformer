@@ -60,11 +60,31 @@ void Player::SetupAnimations() {
     LoadAnimations(1, 6*16, 16, "IdleRightDown");
     LoadAnimations(1, 7*16, 0, "IdleLeftBack");
     LoadAnimations(1, 7*16, 16, "IdleRightBack");
+
+    LoadAnimations(1, 9*16, 0, "killLeft");
+    LoadAnimations(1, 9*16, 16, "killRight");
 }
 
 void Player::Draw( Graphics &graphics ) {
     AnimatedSprite::Draw(graphics);
 }
+
+void Player::Update(float time, GG_Vector2 offset /*= {0, 0}*/) {
+
+    if (_currentHealth <= 0 && _isAlive) {
+
+        PlayAnimation(_facing == LEFT && _currentHealth > 0 ? "killLeft" : "killRight");
+
+        //_isColliding = false;
+        _isAlive = false;
+
+        MoveJump();
+    }
+
+    AnimatedSprite::Update(time, offset);
+}
+
+
 void Player::AnimationDone(std::string currentAnimation) {
     ;
 }
