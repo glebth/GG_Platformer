@@ -215,6 +215,9 @@ void Game::Draw(Graphics &graphics) {
     _level.Draw(graphics);
 
     _player.Draw(graphics);
+    if ( !_player.IsAlive() && !_menu->_isMenuOn) {
+        _menu->ShowMessage(graphics, "ТЫ МЕРТВ. Рестарт в меню.      ", true);
+    }
 
     _hud.Draw(graphics);
     
@@ -222,6 +225,7 @@ void Game::Draw(Graphics &graphics) {
         _menu->Draw(graphics);
     }
     else {
+
         std::vector<Npc *> collidedNpc;
         if ( (collidedNpc = _level.CollidedNpc(_player.GetBoundingbox())).size() > 0 ) {
             _player.HandleNpcCollision(collidedNpc, graphics, _input, _menu);

@@ -21,6 +21,7 @@ namespace menuBtns {
 
 
 class Graphics;
+class Input;
 struct MenuButton;
 
 class Menu {
@@ -32,7 +33,7 @@ public:
     void Draw(Graphics &graphics);
 
     //Pokazat odno soobshenie iz odnoi chasti
-    void ShowMessage(Graphics &graphics, std::string message, 
+    void ShowMessage(Graphics &graphics, std::string message, bool isTipMessage = false, 
         SDL_Color color = {255, 255, 255}, SDL_Surface *textSurface = NULL);
 
     //Pokazaviat bolshoe soobshenie po chastyam

@@ -172,7 +172,6 @@ void Player::HandleEnemyCollision(std::vector<Enemy *> &enemys) {
     for (size_t i = 0; i < enemys.size(); i++) {
 
         enemys[i]->ImpactOnPlayer(this);
-        
 
         if (_dy > 0 && GetBoundingbox().GetBottom() > enemys[i]->GetBoundingbox().GetTop() ) {
             _dy = globals::JUMP_SPEED;

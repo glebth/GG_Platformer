@@ -1,11 +1,12 @@
 #include "menu.h"
 #include "graphics.h"
+#include "input.h"
 
 std::string GAME_MENU_FONT = "data/data-unifon.ttf";
 const int GAME_MENU_FONT_SIZE = 50;
 
 std::string MESSAGE_BOX_FONT = "data/rusFont.ttf";
-const int MESSAGE_BOX_FONT_SIZE = 25;
+const int MESSAGE_BOX_FONT_SIZE = 30;
 const float MESSAGE_BOX_SCALE = 0.9f;
 const int MESSAGE_BOX_X = (int) (globals::WINDOW_WIDTH / 2.0);
 const int MESSAGE_BOX_Y = (int) (globals::WINDOW_HEIGHT / 3.0);
@@ -63,7 +64,7 @@ void Menu::Draw(Graphics &graphics) {
     }
 }
 
-void Menu::ShowMessage(Graphics &graphics, std::string message, 
+void Menu::ShowMessage(Graphics &graphics, std::string message, bool isTipMessage /* = false*/, 
     SDL_Color color /* = {255,255,255}*/, SDL_Surface *textSurface /* = NULL*/) {
 
     if (textSurface == NULL) //esli ne predzagruzhena iz ShowNExt
@@ -121,7 +122,8 @@ void Menu::ShowMessage(Graphics &graphics, std::string message,
                 (int) (tHeight * MESSAGE_BOX_SCALE)};
             graphics.BlitToWindow(textTexture, &srcText, &dstText);   
 
-            _isMessageBoxOn = true;
+            if (!isTipMessage)
+                _isMessageBoxOn = true;
         }
     }
 
@@ -145,7 +147,7 @@ void Menu::ShowNextPartMessage(Graphics &graphics, std::string message,
 
         _messagePart++;
         if (_messagePart <= messagePartsAll) {
-            ShowMessage(graphics, message, color);
+            ShowMessage(graphics, message, false, color);
         }
         else {
             _messagePart = 0;
