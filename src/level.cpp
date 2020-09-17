@@ -395,7 +395,7 @@ void LoadSpawnpoints(XMLElement* pObjectGroup, GG_Vector2 &spawnPoint,
         if (nameSp == "player") {
             spawnPoint = GG_Vector2(ceil(x), ceil(y)) * globals::SPRITE_SCALE;
         }
-        if (nameSp == "pasha") {
+        if (nameSp == "npc") {
             LoadNpc(pElement, x, y, nameSp, lvlNpc, lvlEnemy, graphics);
         }
         if (nameSp == "enemy") {
@@ -406,7 +406,7 @@ void LoadSpawnpoints(XMLElement* pObjectGroup, GG_Vector2 &spawnPoint,
     }
 }
 
-void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc, 
+void LoadNpc(XMLElement* pElement, float x, float y, std::string typeNpc, 
     std::vector<Npc> &lvlNpc, std::vector<Enemy *> &lvlEnemy, Graphics &graphics) {
 
     GG_Vector2 npcPoint = GG_Vector2(ceil(x), ceil(y)) * globals::SPRITE_SCALE;
@@ -421,6 +421,8 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
     float npcXText = 0;
     float npcYText = 0;
     std::string npcFacing = "";
+
+    std::string nameNpc = "";
 
     const char *enemyClass = NULL;
 
@@ -448,6 +450,8 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
             }
 
             XMLElement* pNpc = npcFile.FirstChildElement("npc");
+            nameNpc = pNpc->Attribute("name");
+
             XMLElement* pNpcProperties = pNpc->FirstChildElement("properties");
             pNpcProperties = pNpcProperties->FirstChildElement("property");
 
@@ -548,12 +552,12 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string nameNpc,
 
     SpriteDir facingDir = (npcFacing == "LEFT") ? LEFT : RIGHT;
 
-    if (nameNpc == "enemy" && enemyClass != NULL) {
+    if (typeNpc == "enemy" && enemyClass != NULL) {
         std::string enemyClassName(enemyClass);
 
         Enemy *newEnemy = CreateEnemy(enemyClassName, nameNpc, npcDscrp, graphics, npcTextureFile, npcXText, npcYText, npcWText,
             npcHText, npcPoint.x, npcPoint.y, globals::NPC_ANIM_SPEED, 
-            facingDir, 1.0f, true, npcAnimations[0].animName);
+            facingDir, 0.85f, true, npcAnimations[0].animName);
 
         for (size_t i = 0; i < npcAnimations.size(); i++) {
             newEnemy->LoadAnimations(npcAnimations[i].frames, npcAnimations[i].startX, 
