@@ -8,11 +8,9 @@
         <property name="Y_TEXT" type="float" value="0"/>
         <property name="description">Привет! Это я - Паша! 
 Твой старый друг.
-He has a long shot for making 
-wooden toys. And also he is a little bit obsessed with overwhelming hardness of being a giant blue blob.
-oh yeah
-oh yeah
-yeah right</property>
+Говорят в соседней комнате есть компьютер, 
+который откроет выход отсюда.
+Но лучше не ходи туда: это опасно!</property>
         <property name="facing" value="LEFT"/>
         <property name="dialog" type="file" value="."/>
     </properties>

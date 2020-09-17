@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<npc name="compik">
+    <properties>
+        <property name="H_TEXT" type="float" value="32"/>
+        <property name="NPC_FILE" value="data/tilesets/NpcSym.png"/>
+        <property name="W_TEXT" type="float" value="16"/>
+        <property name="X_TEXT" type="float" value="304"/>
+        <property name="Y_TEXT" type="float" value="96"/>
+        <property name="description">Режим самоуничтожения активирован...
+        ....БЕГИ!!!</property>
+        <property name="facing" value="LEFT"/>
+        <property name="dialog" type="file" value="."/>
+    </properties>
+    <animations>
+        <animation name="idleLeft" frames="1" startX="304" startY="96"/>
+        <animation name="talkLeft" frames="1" startX="304" startY="96"/>
+    </animations>
+</npc>
