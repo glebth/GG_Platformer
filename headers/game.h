@@ -26,9 +26,9 @@ private:
 
     Input* _input;
 
-    Level _level;
+    Level* _level;
 
-    Player _player;
+    Player* _player;
 
     Hud _hud;
 

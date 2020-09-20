@@ -36,13 +36,13 @@ void Game::MainGameloop() {
 
     _input = new Input();
 
-    _level = Level("data/maps/map2.tmx", _gameGraphics);
-    _player = Player(_gameGraphics, 
-        _level.GetPlayerSpawnpoint().x, 
-        _level.GetPlayerSpawnpoint().y);
-    _level.SetPlayer(&_player);
+    _level = new Level("data/maps/map2.tmx", _gameGraphics);
+    _player = new Player(_gameGraphics, 
+        _level->GetPlayerSpawnpoint().x, 
+        _level->GetPlayerSpawnpoint().y);
+    _level->SetPlayer(_player);
     
-    _hud = Hud(_gameGraphics, &_player);
+    _hud = Hud(_gameGraphics, _player);
     _menu = new Menu(_gameGraphics);
 
     bool isQuit = false;
@@ -57,15 +57,16 @@ void Game::MainGameloop() {
         _input->BeginNewFrame();
 
         if (SDL_PollEvent(&event)) {
+
             if(event.type == SDL_KEYDOWN) {
-                //key presssed
+                // Key presssed
                 if(event.key.repeat == 0) {
                     _input->KeyDownEvent(event);
                 }
             }
 
             if (event.type == SDL_KEYUP) {
-                //Some key was released
+                // Some key was released
                 _input->KeyUpEvent(event);
             }
         }
@@ -81,43 +82,45 @@ void Game::MainGameloop() {
 
         if ( !_menu->_isMenuOn && !_menu->_isMessageBoxOn )
         {
-            if ( !_player.IsDamaged() && _player.IsAlive() ) {
+
+            if ( !_player->IsDamaged() && _player->IsAlive() ) {
+
                 if (_input->isKeyHeld(SDL_SCANCODE_LEFT)) {
-                    _player.MoveLeft();
+                    _player->MoveLeft();
                 }
                 else if (_input->isKeyHeld(SDL_SCANCODE_RIGHT)) {
-                    _player.MoveRight();
+                    _player->MoveRight();
                 }
                 else if ((!_input->isKeyHeld(SDL_SCANCODE_RIGHT) && (!_input->isKeyHeld(SDL_SCANCODE_LEFT))))
                 {
-                    _player.MoveStop();
+                    _player->MoveStop();
                     if (_input->isKeyHeld(SDL_SCANCODE_DOWN)) {
-                        _player.LookDown();
+                        _player->LookDown();
                     }
                 }
                 
                 if (_input->WasKeyPressed(SDL_SCANCODE_SPACE)) {
-                    _player.MoveJump();
+                    _player->MoveJump();
                 }
 
                 if (_input->isKeyHeld(SDL_SCANCODE_UP)) {
-                    _player.LookUp();
+                    _player->LookUp();
                 }
                 if ( _input->WasKeyReleased(SDL_SCANCODE_UP) || !_input->isKeyHeld(SDL_SCANCODE_UP) ) {
-                    _player.StopLookingUp();
+                    _player->StopLookingUp();
                 }
                 
                 if ( _input->WasKeyReleased(SDL_SCANCODE_DOWN) || !_input->isKeyHeld(SDL_SCANCODE_DOWN) ) {
-                    _player.StopLookingDown();
+                    _player->StopLookingDown();
                 }
             }
-            else if (_player.IsDamaged()) {
+            else if (_player->IsDamaged()) {
                 
                 if (LAST_DAMAGE_TIME == 0)
                     LAST_DAMAGE_TIME = SDL_GetTicks();
 
                 if (globals::PLAYER_STUN_TIME < SDL_GetTicks() - LAST_DAMAGE_TIME) {
-                    _player.DamagedStateReverse();
+                    _player->DamagedStateReverse();
                     LAST_DAMAGE_TIME = 0;
                 }
             }
@@ -125,6 +128,7 @@ void Game::MainGameloop() {
         else {
 
             if (_menu->_isMenuOn) {
+                
                 if (_input->WasKeyPressed(SDL_SCANCODE_DOWN)) {
                     _menu->MoveDownButton();
                 }
@@ -173,10 +177,10 @@ void Game::MainGameloop() {
 
 void Game::Update(float elapsedTime) {
 
-    _level.Update(globals::SCREEN_TICKS_PER_FRAME);
+    _level->Update(globals::SCREEN_TICKS_PER_FRAME);
 
     if (!_menu->_isMenuOn && !_menu->_isMessageBoxOn) {
-        _player.Update(globals::SCREEN_TICKS_PER_FRAME, _level.GetOffset());
+        _player->Update(globals::SCREEN_TICKS_PER_FRAME, _level->GetOffset());
         _hud.Update(globals::SCREEN_TICKS_PER_FRAME);
     }
 }
@@ -188,34 +192,34 @@ void Game::Draw(Graphics &graphics) {
 
         //Collisions--
         std::vector<GG_Rectangle> collisionRectangles;
-        if ((collisionRectangles = _level.CollidedRects(_player.GetBoundingbox())).size() > 0) {
-            _player.HandleCollision(collisionRectangles);    
+        if ((collisionRectangles = _level->CollidedRects(_player->GetBoundingbox())).size() > 0) {
+            _player->HandleCollision(collisionRectangles);    
         }
         collisionRectangles.clear();
 
 
         std::vector<Slope> collisionSlopes;
-        if ( (collisionSlopes = _level.CollidedSlopes(_player.GetBoundingbox())).size() > 0 ) {
-            _player.HandleSlopeCollision(collisionSlopes);
+        if ( (collisionSlopes = _level->CollidedSlopes(_player->GetBoundingbox())).size() > 0 ) {
+            _player->HandleSlopeCollision(collisionSlopes);
         }
         /*
         else if (collisionRectangles.size() <= 0) {
-            _player.HandleFall();
+            _player->HandleFall();
         } */ //Check if its falling and disable Jump 
 
         
 
         std::vector<Door> collidedDoors;
-        if ( (collidedDoors = _level.CollidedDoors(_player.GetBoundingbox())).size() > 0 ) {
-            _player.HandleDoorCollision(collidedDoors, graphics, _level);
+        if ( (collidedDoors = _level->CollidedDoors(_player->GetBoundingbox())).size() > 0 ) {
+            _player->HandleDoorCollision(collidedDoors, graphics, *_level);
         }
         //--Collisions
     }
 
-    _level.Draw(graphics);
+    _level->Draw(graphics);
 
-    _player.Draw(graphics);
-    if ( !_player.IsAlive() && !_menu->_isMenuOn) {
+    _player->Draw(graphics);
+    if ( !_player->IsAlive() && !_menu->_isMenuOn) {
         _menu->ShowMessage(graphics, "ТЫ МЕРТВ. Рестарт в меню.      ", true);
     }
 
@@ -227,13 +231,13 @@ void Game::Draw(Graphics &graphics) {
     else {
 
         std::vector<Npc *> collidedNpc;
-        if ( (collidedNpc = _level.CollidedNpc(_player.GetBoundingbox())).size() > 0 ) {
-            _player.HandleNpcCollision(collidedNpc, graphics, _input, _menu);
+        if ( (collidedNpc = _level->CollidedNpc(_player->GetBoundingbox())).size() > 0 ) {
+            _player->HandleNpcCollision(collidedNpc, graphics, _input, _menu);
         }
 
         std::vector<Enemy *> collidedEnemies;
-        if ( _player.IsAlive() && !_menu->_isMessageBoxOn && (collidedEnemies = _level.CollidedEnemies(_player.GetBoundingbox())).size() > 0 ) {
-            _player.HandleEnemyCollision(collidedEnemies);
+        if ( _player->IsAlive() && !_menu->_isMessageBoxOn && (collidedEnemies = _level->CollidedEnemies(_player->GetBoundingbox())).size() > 0 ) {
+            _player->HandleEnemyCollision(collidedEnemies);
         }
     }
 
@@ -247,6 +251,10 @@ void Game::ClearGame(Graphics &graphics)
     
     _menu->FreeMenu();
     delete _menu;
+
+    delete _level;
+
+    delete _player;
 
     graphics.FreeGraphics();
 }
