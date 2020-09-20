@@ -17,29 +17,32 @@ public:
                 float xMap, float yMap, float frmTime,
                 float boundingBoxScale = 1,
                 bool isColliding = true);
+    virtual ~AnimatedSprite() {};
 
     virtual void Update(float elapsedTime, GG_Vector2 offset = {0, 0});
 
     virtual void Draw(Graphics &graphics);
 
-    virtual void LoadAnimations(int numbOfFrames, int xTextFirst, int yTextFirst, const char* animationName);
-    virtual void LoadAnimations(std::vector<int> &framesNum, int xTextFirst, int yTextFirst, 
+    virtual void LoadAnimations(int numbOfFrames, 
+        int xTextFirst, int yTextFirst, 
+        const char* animationName);
+    virtual void LoadAnimations(std::vector<int> &framesNum, 
+        int xTextFirst, int yTextFirst, 
         const char* animationName, int frameMargin = 0);
 
 protected:
-    /*
-        Perform logic when animation is Done (finished) every time
-    */
+
+    // Performs logic when animation is Done (finished) every time.
     virtual void AnimationDone(std::string currentAnimation) = 0;
     virtual void SetupAnimations() = 0;
 
     virtual void StopAnimation();
 
-    
-
     std::string _currentAnimationName;
     virtual void PlayAnimation( const char* animationName, bool isToPlayOnce = false);
+
 private:
+
     size_t _frameIndex;
     float _elapsedTime;
     float _animationFrameTime;

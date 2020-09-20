@@ -8,7 +8,9 @@ AnimatedSprite::AnimatedSprite(Graphics &graphics, std::string filePath,
                 float animUpdate,
                 float boundingBoxScale /* = 1*/,
                 bool isCollides /* = true */) : 
-Sprite::Sprite(graphics, filePath, xText, yText, wText, hText, xMap, yMap, boundingBoxScale, isCollides)
+Sprite::Sprite(graphics, filePath, 
+    xText, yText, wText, hText, 
+    xMap, yMap, boundingBoxScale, isCollides)
 {
     _animations.clear();
     _isToPlayCurrentAnimationOnce = false;
@@ -17,7 +19,6 @@ Sprite::Sprite(graphics, filePath, xText, yText, wText, hText, xMap, yMap, bound
 
     _elapsedTime = 0;
     _animationFrameTime = animUpdate;
-
 }
 
 void AnimatedSprite::LoadAnimations(int numbOfFrames, int xTextFirst, int yTextFirst, const char* animationName) {
