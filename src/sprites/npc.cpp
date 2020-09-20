@@ -21,17 +21,10 @@ Npc::Npc(std::string name, std::string description,
     _currentAnimationName = animName;
 
     _facing = facing;
-
-    SetupAnimations();
-    //PlayAnimation("idleLeft");
 }
 
 void Npc::SetupAnimations() {
-
-    // LoadAnimations(1, 4, 0, "idleLeft");
-
-    // std::vector<int> frames = {0, 1, 0, 1};
-    // LoadAnimations(frames, 4, 0, "talkLeft", 7);
+    ;
 }
 
 void Npc::ShowMessageBox(Graphics &graphics, Input *input, Menu *menu) {
@@ -43,7 +36,7 @@ void Npc::ShowMessageBox(Graphics &graphics, Input *input, Menu *menu) {
         menu->_messagePart = 0;
     }
 
-    //Show Description part.
+    // Show Description part.
     if ( menu->_isMessageBoxOn && input->WasKeyPressed(SDL_SCANCODE_X) ) {
         menu->ShowNextPartMessage(graphics, GetNpcDescription());
         isToPlayAnimation = true;
@@ -67,13 +60,11 @@ bool Npc::IsColliding(const GG_Rectangle &otherRect) {
     GG_Rectangle bb = Sprite::GetBoundingbox();
     
     return bb.IsColliding(otherRect);
-
 }
 
 void Npc::AnimationDone(std::string currentAnimation) {
 
     if (_facing == LEFT) { 
-
         PlayAnimation("idleLeft");
     }
     else {

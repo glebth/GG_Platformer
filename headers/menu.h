@@ -32,11 +32,11 @@ public:
 
     void Draw(Graphics &graphics);
 
-    //Pokazat odno soobshenie iz odnoi chasti
+    // Show short message.
     void ShowMessage(Graphics &graphics, std::string message, bool isTipMessage = false, 
         SDL_Color color = {255, 255, 255}, SDL_Surface *textSurface = NULL);
 
-    //Pokazaviat bolshoe soobshenie po chastyam
+    // Show long message by part.
     void ShowNextPartMessage(Graphics &graphics, std::string message, 
         SDL_Color color = {255, 255, 255});
 
