@@ -96,7 +96,7 @@ void Level::Update(float elpasedTime) {
         _offset.x = _player->GetBoundingbox().GetLeft() - (float)globals::WINDOW_WIDTH / 2.0f;
     }
 
-    //Вертикальные оффсеты
+    // Вертикальные оффсеты.
     // if ( _player->GetBoundingbox().GetTop() > (float)globals::WINDOW_HEIGHT / 2.0f &&
     //  _player->GetBoundingbox().GetTop() < _height * _tileHeight * globals::SPRITE_SCALE - 
     //                                             (float)globals::WINDOW_HEIGHT / 2.0f ) 
@@ -122,9 +122,8 @@ void Level::Update(float elpasedTime) {
 }
 
  std::vector<GG_Rectangle> Level::CollidedRects(const GG_Rectangle &otherRect) {
+     
     std::vector<GG_Rectangle> collidedRects;
-
-    // ОПРЕДЕЛИТЬ ПОЛОЖЕНИЕ otherRect и сканировать не все а только то что в округе
 
     for (size_t i = 0; i < _levelColliders.size(); i++) {
         if ( _levelColliders[i].IsColliding(otherRect) ) {

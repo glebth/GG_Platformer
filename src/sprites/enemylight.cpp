@@ -33,7 +33,6 @@ EnemyLight::EnemyLight(std::string name, std::string description, Graphics &grap
 
 void EnemyLight::Update(float time, Player* player , GG_Vector2 offset /*= {0, 0}*/ ) {
 
-    //_facing = player->GetX() > _spriteBoundingbox.GetCenterX() ? RIGHT : LEFT;
     if (_currentHP <= 0) {
 
         PlayAnimation("killLeft");
@@ -54,7 +53,7 @@ void EnemyLight::Update(float time, Player* player , GG_Vector2 offset /*= {0, 0
 void EnemyLight::HandleCollision(std::vector<GG_Rectangle> &othersRectangles) {
     
     if (_isColliding) {
-        //Find ride side that collided;
+        
         for (size_t i = 0; i < othersRectangles.size(); i++) {
             sides::RectSide collisionSide = Sprite::GetCollisionSide(othersRectangles[i]);            
             
@@ -67,7 +66,7 @@ void EnemyLight::HandleCollision(std::vector<GG_Rectangle> &othersRectangles) {
                 case sides::RectSide::TOP:
                     this->_spriteMapPosition.y = othersRectangles[i].GetBottom();
                     this->_dy = 0;
-                    if (_isGrounded) { //esli na slope
+                    if (_isGrounded) {
                         _dx = 0;
                     }
                     break;
@@ -96,7 +95,6 @@ void EnemyLight::HandleCollision(std::vector<GG_Rectangle> &othersRectangles) {
             _previousCollisionSide = collisionSide;
 
             PlayAnimation(_facing == LEFT && _currentHP > 0 ? "runLeft" : "runRight");
-
         }
     }
 }
