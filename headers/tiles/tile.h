@@ -13,6 +13,7 @@ public:
     virtual void Draw(Graphics& graphics);
 
     void Update(float elapsedTime, GG_Vector2 offset = {0, 0});
+    
 protected:
     int _duration;
 
@@ -27,7 +28,7 @@ protected:
 
 struct Tileset {
 
-    Tileset(int firstGid = -1   , int tileWidth = 0, int tileHeight = 0, SDL_Texture* Tileset = 0) {
+    Tileset(int firstGid = -1, int tileWidth = 0, int tileHeight = 0, SDL_Texture* Tileset = 0) {
         _firstGid = firstGid;
         _tileWidth = tileWidth;
         _tileHeight = tileHeight;

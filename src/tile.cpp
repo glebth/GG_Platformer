@@ -31,7 +31,4 @@ void Tile::Draw(Graphics& graphics) {
 
 void Tile::Update(float elapsedTime, GG_Vector2 offset /* = {0,0} */) {
     _tileOffset = offset;
-
-    // _tileInMap._x -= _tileOffset.x;
-    // _tileInMap._y -= _tileOffset.y;
 }

@@ -16,10 +16,9 @@ public:
 private:
     int _amountOfTime = 0;
     bool _isNotDone = false;
-    size_t _tileToDraw; // na kakom frame seychas
+    size_t _tileToDraw;
 
     std::vector<GG_Rectangle> _tilesInTileset;
-    //std::vector< std::pair<GG_Rectangle, int> > _tileInTileset;
 };
 
 struct AnimatedTileInfo {
