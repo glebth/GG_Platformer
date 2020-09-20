@@ -18,6 +18,7 @@ Level::Level(std::string pathMap, Graphics &graphics) {
     _levelColliders.clear();
     _levelAnimatedTiles.clear();
     _levelNpc.clear();
+    _levelEnemy.clear();
 
     _width = 0; _height = 0;
     _tileWidht = 0; _tileHeight = 0;
@@ -27,6 +28,19 @@ Level::Level(std::string pathMap, Graphics &graphics) {
     _offset = {0, 0};
 
     LoadLevel(pathMap, graphics);
+}
+
+Level::~Level() {
+    
+    for (auto i : _levelEnemy) {
+        delete i;
+    };
+    _levelEnemy.clear();
+    _levelMapTiles.clear();
+    _levelTilesets.clear();
+    _levelColliders.clear();
+    _levelAnimatedTiles.clear();
+    _levelNpc.clear();
 }
 
 void Level::SetPlayer(Player *player) {

@@ -143,7 +143,7 @@ void Player::StopLookingUp() {
     _isLookingUp = false;
 }
 
-void Player::HandleDoorCollision( std::vector<Door> &doors, Graphics &graphics, Level &level, Menu *menu) {
+void Player::HandleDoorCollision( std::vector<Door> &doors, Graphics &graphics, Level *level, Menu *menu) {
     
     for (size_t i = 0; i < doors.size(); i++) {
 
@@ -152,9 +152,10 @@ void Player::HandleDoorCollision( std::vector<Door> &doors, Graphics &graphics, 
         }
 
         if( _isGrounded && _isLookingDown ) {
-            level = Level(doors[i].GetDestination(), graphics);
-            _spriteMapPosition = level.GetPlayerSpawnpoint();
-            level.SetPlayer(this);
+            delete level;
+            level = new Level(doors[i].GetDestination(), graphics);
+            _spriteMapPosition = level->GetPlayerSpawnpoint();
+            level->SetPlayer(this);
         }
     }
 

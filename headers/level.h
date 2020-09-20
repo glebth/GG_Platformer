@@ -23,6 +23,7 @@ class Level {
 public:
     Level();
     Level(std::string pathMap, Graphics &graphics);
+    ~Level();
 
     void Draw(Graphics &graphics);
     void Update(float elpasedTime);

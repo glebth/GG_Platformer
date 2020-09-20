@@ -222,7 +222,7 @@ void Game::Draw(Graphics &graphics) {
 
         std::vector<Door> collidedDoors;
         if ( (collidedDoors = _level->CollidedDoors(_player->GetBoundingbox())).size() > 0 ) {
-            _player->HandleDoorCollision(collidedDoors, graphics, *_level, _menu);
+            _player->HandleDoorCollision(collidedDoors, graphics, _level, _menu);
         }
         collidedDoors.clear();
 
