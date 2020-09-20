@@ -28,7 +28,7 @@ public:
     void Draw(Graphics &graphics);
     void Update(float time, GG_Vector2 offset = {0, 0});
 
-    void HandleDoorCollision(std::vector<Door> &doors, Graphics &graphics, Level &level);
+    void HandleDoorCollision(std::vector<Door> &doors, Graphics &graphics, Level &level, Menu *menu);
     void HandleNpcCollision(std::vector<Npc *> &npc, Graphics &graphics, Input *input, Menu *menu);
     void HandleEnemyCollision(std::vector<Enemy *> &enemys);
 

@@ -75,7 +75,6 @@ void Player::Update(float time, GG_Vector2 offset /*= {0, 0}*/) {
 
         PlayAnimation(_facing == LEFT && _currentHealth > 0 ? "killLeft" : "killRight");
 
-        //_isColliding = false;
         _isAlive = false;
 
         MoveJump();
@@ -90,6 +89,7 @@ void Player::AnimationDone(std::string currentAnimation) {
 }
 
 void Player::MoveLeft() {
+
     if (_isLookingUp || _isLookingDown) return;
     
     _dx = -globals::PLAYER_WALK_SPEED;
@@ -97,6 +97,7 @@ void Player::MoveLeft() {
     _facing = LEFT;
 }
 void Player::MoveRight() {
+
     if (_isLookingUp || _isLookingDown) return;
     
     _dx = globals::PLAYER_WALK_SPEED;
@@ -142,10 +143,13 @@ void Player::StopLookingUp() {
     _isLookingUp = false;
 }
 
-void Player::HandleDoorCollision( std::vector<Door> &doors, Graphics &graphics, Level &level) {
+void Player::HandleDoorCollision( std::vector<Door> &doors, Graphics &graphics, Level &level, Menu *menu) {
     
-    // If isGrounded and arrowDown -> go through the door.
     for (size_t i = 0; i < doors.size(); i++) {
+
+        if ( doors[i].GetDestination() == "./data/maps/map2.tmx") {
+            menu->ShowMessage(graphics, "Стрелку вниз    ", true);
+        }
 
         if( _isGrounded && _isLookingDown ) {
             level = Level(doors[i].GetDestination(), graphics);
@@ -165,7 +169,6 @@ void Player::HandleNpcCollision(std::vector<Npc *> &npc, Graphics &graphics, Inp
         }
 
         if ( (input->isKeyHeld(SDL_SCANCODE_DOWN) && _isGrounded) || menu->_isMessageBoxOn ) {
-
             npc[i]->ShowMessageBox(graphics, input, menu);
         }
     }

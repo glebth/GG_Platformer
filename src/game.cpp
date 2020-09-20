@@ -36,7 +36,7 @@ void Game::MainGameloop() {
 
     _input = new Input();
 
-    _level = new Level("data/maps/map2.tmx", _gameGraphics);
+    _level = new Level("data/maps/map1.tmx", _gameGraphics);
     _player = new Player(_gameGraphics, 
         _level->GetPlayerSpawnpoint().x, 
         _level->GetPlayerSpawnpoint().y);
@@ -197,22 +197,13 @@ void Game::Draw(Graphics &graphics) {
         }
         collisionRectangles.clear();
 
-
         std::vector<Slope> collisionSlopes;
         if ( (collisionSlopes = _level->CollidedSlopes(_player->GetBoundingbox())).size() > 0 ) {
             _player->HandleSlopeCollision(collisionSlopes);
         }
-        /*
-        else if (collisionRectangles.size() <= 0) {
-            _player->HandleFall();
-        } */ //Check if its falling and disable Jump 
+        collisionSlopes.clear();
 
         
-
-        std::vector<Door> collidedDoors;
-        if ( (collidedDoors = _level->CollidedDoors(_player->GetBoundingbox())).size() > 0 ) {
-            _player->HandleDoorCollision(collidedDoors, graphics, *_level);
-        }
         //--Collisions
     }
 
@@ -229,6 +220,12 @@ void Game::Draw(Graphics &graphics) {
         _menu->Draw(graphics);
     }
     else {
+
+        std::vector<Door> collidedDoors;
+        if ( (collidedDoors = _level->CollidedDoors(_player->GetBoundingbox())).size() > 0 ) {
+            _player->HandleDoorCollision(collidedDoors, graphics, *_level, _menu);
+        }
+        collidedDoors.clear();
 
         std::vector<Npc *> collidedNpc;
         if ( (collidedNpc = _level->CollidedNpc(_player->GetBoundingbox())).size() > 0 ) {
