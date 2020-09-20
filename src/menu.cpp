@@ -2,16 +2,17 @@
 #include "graphics.h"
 #include "input.h"
 
-std::string GAME_MENU_FONT = "data/data-unifon.ttf";
-const int GAME_MENU_FONT_SIZE = 50;
+namespace menuSetting{
+    std::string GAME_MENU_FONT = "data/8bit.ttf";
+    const int GAME_MENU_FONT_SIZE = 50;
 
-std::string MESSAGE_BOX_FONT = "data/rusFont.ttf";
-const int MESSAGE_BOX_FONT_SIZE = 30;
-const float MESSAGE_BOX_SCALE = 0.9f;
-const int MESSAGE_BOX_X = (int) (globals::WINDOW_WIDTH / 2.0);
-const int MESSAGE_BOX_Y = (int) (globals::WINDOW_HEIGHT / 3.0);
-const int PARAGRAPH_LINES_COUNT = 4;
-
+    std::string MESSAGE_BOX_FONT = "data/rusFont.ttf";
+    const int MESSAGE_BOX_FONT_SIZE = 30;
+    const float MESSAGE_BOX_SCALE = 0.9f;
+    const int MESSAGE_BOX_X = (int) (globals::WINDOW_WIDTH / 2.0);
+    const int MESSAGE_BOX_Y = (int) (globals::WINDOW_HEIGHT / 3.0);
+    const int PARAGRAPH_LINES_COUNT = 4;
+};
 
 
 Menu::Menu(Graphics &graphics) {
@@ -20,8 +21,8 @@ Menu::Menu(Graphics &graphics) {
     _isMessageBoxOn = false;
     _messagePart = 0;
 
-    _menuFont = graphics.LoadFont(GAME_MENU_FONT, GAME_MENU_FONT_SIZE);
-    _textBoxFont = graphics.LoadFont(MESSAGE_BOX_FONT, MESSAGE_BOX_FONT_SIZE);
+    _menuFont = graphics.LoadFont(menuSetting::GAME_MENU_FONT, menuSetting::GAME_MENU_FONT_SIZE);
+    _textBoxFont = graphics.LoadFont(menuSetting::MESSAGE_BOX_FONT, menuSetting::MESSAGE_BOX_FONT_SIZE);
 
     _menuBackground = graphics.LoadTexture( menuBtns::MENU_BUTTON_FILE );
 
@@ -67,7 +68,7 @@ void Menu::Draw(Graphics &graphics) {
 void Menu::ShowMessage(Graphics &graphics, std::string message, bool isTipMessage /* = false*/, 
     SDL_Color color /* = {255,255,255}*/, SDL_Surface *textSurface /* = NULL*/) {
 
-    if (textSurface == NULL) //esli ne predzagruzhena iz ShowNExt
+    if (textSurface == NULL) //if not from ShowNext
         textSurface = TTF_RenderUTF8_Blended_Wrapped(_textBoxFont, message.c_str(), 
             color, (Uint32) (globals::WINDOW_WIDTH / 2) );
 
@@ -90,10 +91,10 @@ void Menu::ShowMessage(Graphics &graphics, std::string message, bool isTipMessag
             SDL_Rect srcBg = { 3, 3, 238, 18};
 
             int fontLineSkip = TTF_FontLineSkip(_textBoxFont);
-            int paragraphOnScreen = fontLineSkip * PARAGRAPH_LINES_COUNT;
+            int paragraphOnScreen = fontLineSkip * menuSetting::PARAGRAPH_LINES_COUNT;
             int bgBoxHeight = tHeight + fontLineSkip;
 
-            if (tHeight > paragraphOnScreen) { //esli text slishkom dlinnii
+            if (tHeight > paragraphOnScreen) { //if text longer then set Lines
 
                 bgBoxHeight = fontLineSkip + paragraphOnScreen;
                 int deltaLines = tHeight - _messagePart * paragraphOnScreen;
@@ -107,8 +108,8 @@ void Menu::ShowMessage(Graphics &graphics, std::string message, bool isTipMessag
             }
                 
             SDL_Rect dstBg = {
-                MESSAGE_BOX_X, 
-                MESSAGE_BOX_Y, 
+                menuSetting::MESSAGE_BOX_X, 
+                menuSetting::MESSAGE_BOX_Y, 
                 tWidth, 
                 bgBoxHeight};
             graphics.BlitToWindow(_menuBackground, &srcBg, &dstBg);
@@ -116,10 +117,10 @@ void Menu::ShowMessage(Graphics &graphics, std::string message, bool isTipMessag
             //Text texture
             SDL_Rect srcText = {0, paragraphOnScreen * _messagePart, tWidth, tHeight};
             SDL_Rect dstText = {
-                (int) (MESSAGE_BOX_X / MESSAGE_BOX_SCALE), 
-                (int) (MESSAGE_BOX_Y / MESSAGE_BOX_SCALE),
-                (int) (tWidth * MESSAGE_BOX_SCALE), 
-                (int) (tHeight * MESSAGE_BOX_SCALE)};
+                (int) (menuSetting::MESSAGE_BOX_X / menuSetting::MESSAGE_BOX_SCALE), 
+                (int) (menuSetting::MESSAGE_BOX_Y / menuSetting::MESSAGE_BOX_SCALE),
+                (int) (tWidth * menuSetting::MESSAGE_BOX_SCALE), 
+                (int) (tHeight * menuSetting::MESSAGE_BOX_SCALE)};
             graphics.BlitToWindow(textTexture, &srcText, &dstText);   
 
             if (!isTipMessage)
@@ -143,7 +144,7 @@ void Menu::ShowNextPartMessage(Graphics &graphics, std::string message,
         int tHeight = textSurface->h;
         int fontLineSkip = TTF_FontLineSkip(_textBoxFont);       
 
-        int messagePartsAll = std::ceil<int>( tHeight / (fontLineSkip * PARAGRAPH_LINES_COUNT) );
+        int messagePartsAll = std::ceil<int>( tHeight / (fontLineSkip * menuSetting::PARAGRAPH_LINES_COUNT) );
 
         _messagePart++;
         if (_messagePart <= messagePartsAll) {
