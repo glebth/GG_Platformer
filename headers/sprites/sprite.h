@@ -26,12 +26,12 @@ public:
         float xMap, float yMap,
         float boundingBoxScale = 1.0f,
         bool isColliding = true);
+    
+    virtual ~Sprite() {;}
 
     SDL_Texture* GetSpriteTexture() const {
         return _spriteTexture;
     }
-
-// Poka public, kogda animated i player sprite -> v protected
 
     virtual void Update(float time, GG_Vector2 offset = {0, 0});
 
@@ -57,7 +57,7 @@ public:
     virtual void SetOffset(GG_Vector2 offset);
 
 protected:
-    //_x, _y
+    
     GG_Vector2 _spriteMapPosition;
     GG_Vector2 _spriteOffset;
     
@@ -69,7 +69,6 @@ protected:
 
     SDL_Rect _spriteTextureRect;
 
-    //Animated::
     SpriteDir _facing;
 
     float _bbScale;

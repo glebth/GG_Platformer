@@ -40,7 +40,7 @@ void Sprite::Draw(Graphics &graphics) {
     
     if (_isVisible) {
 
-        SDL_Rect dst = {(int)(_spriteMapPosition.x - //Чтобы bb был меньше спрайта, но снизу и посередине
+        SDL_Rect dst = {(int)(_spriteMapPosition.x - // Чтобы bb был меньше спрайта, но снизу и посередине
                 (_spriteTextureRect.w * globals::SPRITE_SCALE * (1.0f - _bbScale) / 2.0f) - 
                 (int)_spriteOffset.x ), 
             (int)(_spriteMapPosition.y - 
@@ -54,7 +54,7 @@ void Sprite::Draw(Graphics &graphics) {
 }
 
 const sides::RectSide Sprite::GetCollisionSide (GG_Rectangle &otherRectangle) const {
-    //Smotrit v kakoi storone bolshe collisia
+
     int amntRight, amntLeft, amntTop, amntBottom = 0;
     amntBottom = abs(GetBoundingbox().GetBottom() - otherRectangle.GetTop()); //if big then NO collision
     amntLeft = abs(GetBoundingbox().GetLeft() - otherRectangle.GetRight());
@@ -79,11 +79,9 @@ const sides::RectSide Sprite::GetCollisionSide (GG_Rectangle &otherRectangle) co
 void Sprite::HandleCollision(std::vector<GG_Rectangle> &othersRectangles) { 
 
     if (_isColliding) {
-        //Find ride side that collided;
+
         for (size_t i = 0; i < othersRectangles.size(); i++) {
             sides::RectSide collisionSide = Sprite::GetCollisionSide(othersRectangles[i]);
-            //SDL_Log("collision side %i ", Sprite::GetCollisionSide(othersRectangles[i]));
-            
             
                 switch (collisionSide)
                 {
@@ -95,17 +93,15 @@ void Sprite::HandleCollision(std::vector<GG_Rectangle> &othersRectangles) {
                 case sides::RectSide::TOP:
                     this->_spriteMapPosition.y = othersRectangles[i].GetBottom();
                     this->_dy = 0;
-                    if (_isGrounded) { //esli na slope
+                    if (_isGrounded) { // If on a slope.
                         _dx = 0;
                     }
                     break;
                 case sides::RectSide::LEFT:
-                    this->_spriteMapPosition.x = othersRectangles[i].GetRight();// + 1;
-                    //this->_dx = 0;
+                    this->_spriteMapPosition.x = othersRectangles[i].GetRight();
                     break;
                 case sides::RectSide::RIGHT:
-                    this->_spriteMapPosition.x = othersRectangles[i].GetLeft() - this->GetBoundingbox().GetWidth();// - 1;
-                    //this->_dx = 0;
+                    this->_spriteMapPosition.x = othersRectangles[i].GetLeft() - this->GetBoundingbox().GetWidth();
                     break;                          
                 default:
                     break;
@@ -125,17 +121,17 @@ void Sprite::HandleSlopeCollision(std::vector<Slope> &slopes) {
 
     if (_isColliding) {
         for (size_t i = 0; i < slopes.size(); i++) {
-            //Where on the slope Sprite bottom center will be
-            //slope is y = kx + b
-            //k is _slope(tangens), b is y intercect(when x==0)
+            // Where on the slope Sprite bottom center will be
+            // slope is y = kx + b
+            // k is _slope(tangens), b is y intercect(when x==0)
 
             float newY = slopes[i].GetSlope() * _spriteBoundingbox.GetCenterX() + slopes[i].GetB();
 
-            if (_isGrounded) {//Uzhe na slope
+            if (_isGrounded) {// if on a slope.
                 _spriteMapPosition.y = newY - _spriteBoundingbox.GetHeight();
                 _dy = 0; 
             } 
-            else if (_dy >= 0){//Padaet no uzhe v boundBox of slope
+            else if (_dy >= 0){// Falling in a slope bb
                 _isGrounded = true;
             }
         }
@@ -152,12 +148,11 @@ void Sprite::Update(float time, GG_Vector2 offset /* = {0, 0} */ ) {
         if (!_isGrounded || _dy < globals::MAX_GRAVITY_SPEED) {
             _dy += globals::GRAVITY_AX * time;
         }
-        //SDL_Log("isGrounded %i _dy = %f", _isGrounded, _dy);
+
         _spriteMapPosition.y += _dy * time;
 
         _spriteBoundingbox._x = _spriteMapPosition.x;
         _spriteBoundingbox._y = _spriteMapPosition.y;
-        //SDL_Log("BBy: %f", _spriteBoundingbox.GetCenterY());
     // }
 }
 
