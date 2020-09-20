@@ -34,6 +34,7 @@ void Level::SetPlayer(Player *player) {
 }
 
 void Level::LoadLevel(std::string pathMap, Graphics &graphics) {
+
     XMLDocument doc;
     if (doc.LoadFile(pathMap.c_str())) {
         SDL_Log("Cant open file %s XML: %s", pathMap.c_str(), doc.ErrorStr());
@@ -41,10 +42,10 @@ void Level::LoadLevel(std::string pathMap, Graphics &graphics) {
 
     XMLElement* mapNode = LoadMap(&doc, _width, _height, _tileWidht, _tileHeight);
 
-    LoadTilesets(mapNode, this->_levelTilesets, graphics, _levelAnimatedTiles, _levelATInfo);
+    LoadTilesets(mapNode, _levelTilesets, graphics, _levelAnimatedTiles, _levelATInfo);
 
-    LoadData(mapNode, this->_levelTilesets, _width, _height, _tileWidht, _tileHeight, 
-        this->_levelMapTiles, _levelATInfo, _levelAnimatedTiles);
+    LoadData(mapNode, _levelTilesets, _width, _height, _tileWidht, _tileHeight, 
+        _levelMapTiles, _levelATInfo, _levelAnimatedTiles);
 
     LoadObjects(mapNode, graphics, _levelColliders, _playerSpawnPoint, 
     _levelSlopes, _levelDoors, _levelNpc, _levelEnemy);
@@ -52,6 +53,7 @@ void Level::LoadLevel(std::string pathMap, Graphics &graphics) {
 }
 
 void Level::Draw(Graphics &graphics) {
+
     for (size_t i = 0; i < _levelMapTiles.size(); i++) {
         _levelMapTiles[i].Draw(graphics);
     }
@@ -333,20 +335,25 @@ void LoadObjects(
     XMLElement* pObjectGroup = mapNode->FirstChildElement("objectgroup");
 
     while (pObjectGroup) {
-        const char* nameObjectgroup = pObjectGroup->Attribute("name");
-        std::string nameGroup(nameObjectgroup);
 
-        if (nameGroup == "collisions") {
+        const char* nameObjectgroup = pObjectGroup->Attribute("name");
+
+        switch (Utils::str2int(nameObjectgroup))
+        {
+        case Utils::str2int("collisions"):
             LoadColliders(pObjectGroup, collisionRects);
-        }
-        else if (nameGroup == "spawnpoints") {
+            break;
+        case Utils::str2int("spawnpoints"):
             LoadSpawnpoints(pObjectGroup, playerSpawnPoint, lvlNpc, lvlEnemy, graphics);
-        }
-        else if (nameGroup == "slopes") {
+            break;
+        case Utils::str2int("slopes"):
             LoadSlopes(pObjectGroup, slopesVector);
-        } 
-        else if (nameGroup == "doors") {
+            break;
+        case Utils::str2int("doors"):
             LoadDoors(pObjectGroup, lvlDoorsVector);
+            break;
+        default:
+            break;
         }
 
         pObjectGroup = pObjectGroup->NextSiblingElement("objectgroup");
@@ -364,7 +371,6 @@ void LoadColliders(XMLElement* pObjectGroup, std::vector<GG_Rectangle> &collisio
                 y = pElement->FloatAttribute("y");
                 width = pElement->FloatAttribute("width");
                 height = pElement->FloatAttribute("height");
-                ////SDL_Log("x== %f y == %f", x, y);
 
                 collisionRects.push_back(GG_Rectangle(
                     std::ceil(x) * globals::SPRITE_SCALE,
@@ -388,17 +394,21 @@ void LoadSpawnpoints(XMLElement* pObjectGroup, GG_Vector2 &spawnPoint,
         x = pElement->FloatAttribute("x");
         y = pElement->FloatAttribute("y");
         const char* nameSpawn = pElement->Attribute("name");
-
         std::string nameSp(nameSpawn);
 
-        if (nameSp == "player") {
+        switch (Utils::str2int(nameSpawn))
+        {
+        case Utils::str2int("player"):
             spawnPoint = GG_Vector2(ceil(x), ceil(y)) * globals::SPRITE_SCALE;
-        }
-        if (nameSp == "npc") {
+            break;
+        case Utils::str2int("npc"):
             LoadNpc(pElement, x, y, nameSp, lvlNpc, lvlEnemy, graphics);
-        }
-        if (nameSp == "enemy") {
+            break;
+        case Utils::str2int("enemy"):
             LoadNpc(pElement, x, y, nameSp, lvlNpc, lvlEnemy, graphics);
+            break;
+        default:
+            break;
         }
 
         pElement = pElement->NextSiblingElement("object");
@@ -457,43 +467,52 @@ void LoadNpc(XMLElement* pElement, float x, float y, std::string typeNpc,
             while(pNpcProperties) {
 
                 const char* charNpcNameProp = pNpcProperties->Attribute("name");
-                std::string propNpcName(charNpcNameProp);
 
-                if (propNpcName == "H_TEXT") {
+                switch (Utils::str2int(charNpcNameProp))
+                {
+                case Utils::str2int("H_TEXT"):
+                {
                     npcHText = pNpcProperties->FloatAttribute("value");
+                    break;
                 }
-
-                if (propNpcName == "NPC_FILE") {
+                case Utils::str2int("NPC_FILE"):
+                {
                     const char* npcFilechar = pNpcProperties->Attribute("value");
                     npcTextureFile = std::string(npcFilechar);
+                    break;
                 }
-
-                if (propNpcName == "W_TEXT") {
+                case Utils::str2int("W_TEXT"):
+                {
                     npcWText = pNpcProperties->FloatAttribute("value");
+                    break;
                 }
-
-                if (propNpcName == "X_TEXT") {
+                case Utils::str2int("X_TEXT"):
+                {
                     npcXText = pNpcProperties->FloatAttribute("value");
+                    break;
                 }
-
-                if (propNpcName == "Y_TEXT") {
+                case Utils::str2int("Y_TEXT"):
+                {
                     npcYText = pNpcProperties->FloatAttribute("value");
+                    break;
                 }
-
-                if (propNpcName == "description") {
+                case Utils::str2int("description"):
+                {
                     const char* npcDescription = pNpcProperties->Attribute("value"); // odna stroka
-
                     if (npcDescription == NULL) { // neskolko strok
                         npcDescription = pNpcProperties->GetText();
                     }
-
                     npcDscrp = std::string(npcDescription);
+                    break;
                 }
-
-                if (propNpcName == "facing") {
-
+                case Utils::str2int("facing"):
+                {
                     const char *facing = pNpcProperties->Attribute("value");
                     npcFacing = std::string(facing);
+                    break;
+                }
+                default:
+                    break;
                 }
                 
                 pNpcProperties = pNpcProperties->NextSiblingElement("property");
@@ -595,7 +614,10 @@ Enemy * CreateEnemy(std::string enemyClass,
                 bool isCollides /*= true*/,
                 std::string animName /*= "idleLeft"*/) {
     
-    if (enemyClass == "light") {
+    switch (Utils::str2int(enemyClass.c_str()))
+    {
+    case Utils::str2int("light"):
+    {
         return new EnemyLight(name, 
             description,
             graphics, filePath, 
@@ -606,7 +628,12 @@ Enemy * CreateEnemy(std::string enemyClass,
             boundingBoxScale,
             isCollides,
             animName);
+        break;
     }
+    default:
+        break;
+    }
+
     return NULL;
 }
 
@@ -620,7 +647,7 @@ void LoadSlopes(XMLElement* pObjectGroup, std::vector<Slope> &slopesVector) {
 
         float x1 = pElement->FloatAttribute("x");
         float y1 = pElement->FloatAttribute("y");
-        GG_Vector2 p1 = { x1, y1 }; //std::ceil?????
+        GG_Vector2 p1 = { x1, y1 };
 
         XMLElement *pPolyline = pElement->FirstChildElement("polyline");
 
@@ -629,7 +656,6 @@ void LoadSlopes(XMLElement* pObjectGroup, std::vector<Slope> &slopesVector) {
 
             const char* points = pPolyline->Attribute("points");
             std::string strPoints(points);
-            //SDL_Log("%s", points);
 
             Utils::Split( strPoints, relativePoints, ' '); //razbil na point'i
 
@@ -678,18 +704,21 @@ void LoadDoors(XMLElement* pObjectGroup, std::vector<Door> &doorsVector) {
             while (pProperty) {
 
                 const char* nameObjectgroup = pProperty->Attribute("name");
-                std::string propName(nameObjectgroup);
 
-                if (propName == "destination") {
-
+                switch (Utils::str2int(nameObjectgroup))
+                {
+                case Utils::str2int("destination"):
+                {
                     const char* destination = pProperty->Attribute("value");
                     std::string doorDest(destination);
 
                     Door newDoor(doorRect, "./data/maps/" + doorDest + ".tmx");
 
-                    //SDL_Log("door %s", destination);
-
                     doorsVector.push_back(newDoor);
+                    break;
+                }
+                default:
+                    break;
                 }
 
                 pProperty = pProperty->NextSiblingElement("property");
@@ -717,7 +746,6 @@ void LoadData_ParseData(const char* dataText, std::vector<Tileset> &lvlTilesets,
     while (!ss.eof())
     {
         ss >> tempStroka; //odna stroka iz data
-        //SDL_Log("data: %s", tempStroka.c_str());
 
         size_t posDash = -1;     
 
