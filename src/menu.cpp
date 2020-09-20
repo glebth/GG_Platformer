@@ -235,5 +235,8 @@ void Menu::FreeMenu() {
         SDL_DestroyTexture(_mainMenuButtons[i].buttonTexture);
 
     }
+}
 
+Menu::~Menu() {
+    FreeMenu();
 }

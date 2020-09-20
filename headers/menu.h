@@ -28,6 +28,8 @@ class Menu {
 public:
     Menu() {};
     Menu(Graphics &graphics);
+    ~Menu();
+
     void Update(float elapsedTime);
 
     void Draw(Graphics &graphics);
@@ -49,6 +51,7 @@ public:
     bool _isMenuOn;
     bool _isMessageBoxOn;
     int _messagePart;
+    
 private:
     std::vector<MenuButton> _mainMenuButtons;
     size_t _currentButtonNum;

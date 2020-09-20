@@ -29,12 +29,12 @@ public:
     
     const bool IsCollides(const GG_Rectangle &other ) const {
 
-        if ( !(//_p2 ниже и levee _p1
+        if ( !(//_p2 lower и leftier _p1
             ( other.GetLeft() <= _p1.x && 
             other.GetRight() >= _p2.x &&
             other.GetBottom() >= _p2.y &&
             other.GetTop() <= _p1.y) || 
-            //_p2 ниже и pravee p1
+            //_p2 lower & right p1
             ( other.GetLeft() <= _p2.x &&
             other.GetRight() >= _p1.x &&
             other.GetBottom() >= _p2.y &&
@@ -56,7 +56,7 @@ public:
         float ddy = other.GetBottom() - boxY;
 
         if ( ((boxY >= _p2.y && boxY <= _p1.y) || (boxY >= _p1.y && boxY <= _p2.y)) && //if between dots
-            ( ddy >= 0 ) ) { // if выше линии
+            ( ddy >= 0 ) ) { // if higher than the line
             return true;
         }
 
@@ -65,7 +65,7 @@ public:
 
 private:
     GG_Vector2 _p1, _p2;
-    float _slope;//tangens ugla
+    float _slope;//tangens
     float _b;
 };
 

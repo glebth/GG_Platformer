@@ -3,7 +3,6 @@
 
 #include "graphics.h"
 #include "game.h"
-#include "gg_timer.h"
 #include "input.h"
 #include "menu.h"
 
